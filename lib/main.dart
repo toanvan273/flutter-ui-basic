@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_ui/screen/home_page.dart';
+import 'package:flutter_ui/ui_catalog/CartModel.dart';
+import 'package:flutter_ui/ui_catalog/MyCatalog.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(HomePage());
+  runApp(
+      ChangeNotifierProvider(
+        create: (context) => CartModel(),
+        child: MyCatalog(),
+      )
+  );
 }
