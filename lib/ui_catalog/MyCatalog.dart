@@ -18,6 +18,9 @@ class MyCatalog extends StatelessWidget{
               print('object ${cart.totalPrice}');
               return Text('Total price: ${cart.getlength.toString()}');
             }),
+            const SizedBox(
+              width: 20,
+            ),
             Builder(builder: (context){
               return InkWell(
                 child: Icon(Icons.shopping_cart),
