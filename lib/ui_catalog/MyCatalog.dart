@@ -102,6 +102,53 @@ class Actions extends StatefulWidget {
 class ActionButton extends State<Actions> {
   bool added = false;
 
+  Future<void> bottomSheetBuilder(BuildContext context){
+    return showModalBottomSheet<void>(
+        context: context,
+        builder: (BuildContext context){
+          return SizedBox(
+            height: 600,
+            child: Column(
+              children: [
+                Padding(
+                  padding: EdgeInsets.all(10),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Center(
+                            child: Text('Thêm món mới')
+                        ),
+                      ),
+                      InkWell(
+                        child: Icon(Icons.close),
+                        onTap: (){
+                          Navigator.of(context).pop();
+                        },
+                      )
+                    ],
+                  ),
+                ),
+                Divider(),
+                Expanded(
+                  child: Column(),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(10),
+                  child: ElevatedButton(
+                    child: Text('Thêm vào giỏ hàng 1000 \$'),
+                    onPressed: (){},
+                    style: TextButton.styleFrom(
+                      textStyle: Theme.of(context).textTheme.labelLarge,
+                      backgroundColor: Colors.deepOrangeAccent
+                    ),
+                  ),
+                )
+              ],
+            ),
+          );
+        }
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<CartBloc, CartState>(
@@ -114,6 +161,7 @@ class ActionButton extends State<Actions> {
                 setState(() {
                   added = !added;
                 });
+                bottomSheetBuilder(context);
               }
               , child: const Text('Add')
           );
