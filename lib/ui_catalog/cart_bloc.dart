@@ -15,7 +15,6 @@ final class CartEventRemove extends CartEvent {
 final class CartEventRemoveAll extends CartEvent{}
 
 
-
 class CartBloc extends Bloc<CartEvent, CartState> {
   CartBloc():super(CartState([])) {
    on<CartEventAdd>((event, emit) => emit(state.addProduct(event.product)));
@@ -23,9 +22,6 @@ class CartBloc extends Bloc<CartEvent, CartState> {
    on<CartEventRemoveAll>((event, emit) => emit(state.removeAllProduct()));
   }
 }
-
-
-
 
 
 

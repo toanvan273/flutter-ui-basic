@@ -18,7 +18,7 @@ class MyCart extends StatelessWidget{
             actions: state.getLength != 0 ?
             [
             InkWell(
-              child: Icon(Icons.remove_circle_outline),
+              child: const Icon(Icons.remove_circle_outline),
               onTap: (){
                 ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
@@ -34,40 +34,55 @@ class MyCart extends StatelessWidget{
                 );
               },
             ),
-            Padding(padding: EdgeInsets.only(right: 20))
+            const Padding(padding: EdgeInsets.only(right: 20))
             ] : null,
           ),
           body: Padding(
-            padding: EdgeInsets.symmetric(
+            padding: const EdgeInsets.symmetric(
                 vertical: 10,
                 horizontal: 10
             ),
             child: Column(
               children: [
                 Expanded(
-                  child: Column(
-                    children: [
-                      for (final product in state.products)
-                        Row(
-                          children: [
-                            Expanded(
-                                child: Text('${product.name}')
-                            ),
-                            ElevatedButton(
-                                child: Text('Delete'),
-                                onPressed: (){
-                                  context.read<CartBloc>().add(CartEventRemove(product.id));
-                                }
-                            )
-                          ],
-                        )
-                    ],
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        for (final product in state.products)
+                          Row(
+                            children: [
+                              Expanded(
+                                  child: Text('${product.name}')
+                              ),
+                              ElevatedButton(
+                                  child: const Text('Delete'),
+                                  onPressed: (){
+                                    context.read<CartBloc>().add(CartEventRemove(product.id));
+                                  }
+                              )
+                            ],
+                          )
+                      ],
+                    ),
                   ),
                 ),
                 SizedBox(
                   height: 200,
                   child: Center(
-                    child: Text('Total: ${state.totalPrices}', style: TextStyle(fontSize: 30, fontWeight: FontWeight.w500),),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text('Total: ${state.totalPrices}', style: const TextStyle(fontSize: 30, fontWeight: FontWeight.w500),),
+                        SizedBox(width: 20),
+                        OutlinedButton(
+                            style: TextButton.styleFrom(
+                              textStyle: Theme.of(context).textTheme.labelLarge,
+                            ),
+                            onPressed: () => _dialogBuilder1(context),
+                            child: const Text('Submit')
+                        ),
+                      ],
+                    ),
                   ),
                 )
               ],
@@ -75,6 +90,37 @@ class MyCart extends StatelessWidget{
           ),
         );
       },
+    );
+  }
+
+  Future<void> _dialogBuilder1(BuildContext context){
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context){
+        return AlertDialog(
+          title: Text('Title'),
+          content: const Text(
+            'A dialog is a type of modal window that\n'
+                'appears in front of app content to\n'
+                'provide critical information, or prompt\n'
+                'for a decision to be made.',
+          ),
+          actions: <Widget>[
+            ElevatedButton(
+              child: Text('Cancel'),
+              onPressed: (){
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child:  Text('Submit'),
+              onPressed: (){
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      }
     );
   }
 }
