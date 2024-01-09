@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_ui/ui_catalog/CartModel.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ui/ui_catalog/MyCatalog.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_ui/ui_catalog/cart_bloc.dart';
+
 
 void main() {
   runApp(
-      ChangeNotifierProvider(
-        create: (context) => CartModel(),
+      BlocProvider(
+        create: (c)=> CartBloc(),
         child: MyCatalog(),
       )
   );

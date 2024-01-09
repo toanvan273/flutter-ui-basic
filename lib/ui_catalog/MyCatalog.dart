@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_ui/ui_catalog/CartModel.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ui/ui_catalog/MyCart.dart';
 import 'package:flutter_ui/ui_catalog/Product.dart';
+import 'package:flutter_ui/ui_catalog/cart_bloc.dart';
 import 'package:provider/provider.dart';
 
 class MyCatalog extends StatelessWidget{
@@ -14,10 +15,11 @@ class MyCatalog extends StatelessWidget{
           title: Text('My Catalog'),
           backgroundColor: Colors.yellow,
           actions: [
-            Consumer<CartModel>(builder: (context, cart, child){
-              print('object ${cart.totalPrice}');
-              return Text('Total price: ${cart.getlength.toString()}');
-            }),
+            BlocBuilder<CartBloc, CartState>(
+              builder: (context, state){
+                return Text('Total price: ${state.totalPrices}');
+              },
+            ),
             const SizedBox(
               width: 20,
             ),
@@ -92,11 +94,7 @@ class ProductItem extends StatelessWidget {
 class Actions extends StatefulWidget {
   Product product;
   Actions(this.product, {super.key});
-  final cart = CartModel();
 
-  void handleAddProduct(){
-    cart.add(product);
-  }
   @override
   State<StatefulWidget> createState() => ActionButton();
 }
@@ -106,14 +104,32 @@ class ActionButton extends State<Actions> {
 
   @override
   Widget build(BuildContext context) {
-    return !added ? ElevatedButton(
-        onPressed:  (){
-          widget.handleAddProduct();
-          setState(() {
-            added = !added;
-          });
+    return BlocBuilder<CartBloc, CartState>(
+      builder: (context, state){
+        dynamic pExit = state.products.indexWhere((e) => e.id == widget.product.id);
+        if(state.getLength == 0 || pExit<0){
+          return ElevatedButton(
+              onPressed:  (){
+                context.read<CartBloc>().add(CartEventAdd(widget.product));
+                setState(() {
+                  added = !added;
+                });
+              }
+              , child: const Text('Add')
+          );
         }
-        , child: const Text('Add')
-    ) : const ElevatedButton(onPressed: null, child: Icon(Icons.check));
+        return Container(
+          child: !added ? ElevatedButton(
+              onPressed:  (){
+                context.read<CartBloc>().add(CartEventAdd(widget.product));
+                setState(() {
+                  added = !added;
+                });
+              }
+              , child: const Text('Add')
+          ) : const ElevatedButton(onPressed: null, child: Icon(Icons.check)),
+        );
+      },
+    );
   }
 }

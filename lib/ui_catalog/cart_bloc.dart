@@ -1,3 +1,4 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ui/ui_catalog/Product.dart';
 
 abstract class CartEvent {}
@@ -11,6 +12,22 @@ final class CartEventRemove extends CartEvent {
   int id;
   CartEventRemove(this.id);
 }
+final class CartEventRemoveAll extends CartEvent{}
+
+
+
+class CartBloc extends Bloc<CartEvent, CartState> {
+  CartBloc():super(CartState([])) {
+   on<CartEventAdd>((event, emit) => emit(state.addProduct(event.product)));
+   on<CartEventRemove>((event, emit) => emit(state.removeProduct(event.id)));
+   on<CartEventRemoveAll>((event, emit) => emit(state.removeAllProduct()));
+  }
+}
+
+
+
+
+
 
 class CartState {
   List<Product> products;
@@ -52,4 +69,11 @@ class CartState {
     }
     return 0;
   }
+
+
+  // @override
+  // String toString() {
+  //   // TODO: implement toString
+  //   return products.map((e) => e.toString());
+  // }
 }

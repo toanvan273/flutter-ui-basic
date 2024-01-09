@@ -2,7 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 class Product {
-   int? id;
+   int id;
    String name;
    Color color;
    double price;
