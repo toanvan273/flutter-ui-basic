@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ui/ui_catalog/MyCart.dart';
 import 'package:flutter_ui/ui_catalog/Product.dart';
 import 'package:flutter_ui/ui_catalog/cart_bloc.dart';
+import 'package:flutter_ui/ui_catalog/new_food.dart';
 import 'package:provider/provider.dart';
 
 class MyCatalog extends StatelessWidget{
@@ -80,7 +81,7 @@ class ProductItem extends StatelessWidget {
                 child: Text('${item.price.toInt()}' + "\$"),
               ),
             ),
-            Padding(padding: EdgeInsets.only(right: 10)),
+            const Padding(padding: EdgeInsets.only(right: 10)),
             Expanded(
               child: Text(item.name),
             ),
@@ -106,46 +107,47 @@ class ActionButton extends State<Actions> {
     return showModalBottomSheet<void>(
         context: context,
         builder: (BuildContext context){
-          return SizedBox(
-            height: 600,
-            child: Column(
-              children: [
-                Padding(
-                  padding: EdgeInsets.all(10),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Center(
-                            child: Text('Thêm món mới')
-                        ),
-                      ),
-                      InkWell(
-                        child: Icon(Icons.close),
-                        onTap: (){
-                          Navigator.of(context).pop();
-                        },
-                      )
-                    ],
-                  ),
-                ),
-                Divider(),
-                Expanded(
-                  child: Column(),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(10),
-                  child: ElevatedButton(
-                    child: Text('Thêm vào giỏ hàng 1000 \$'),
-                    onPressed: (){},
-                    style: TextButton.styleFrom(
-                      textStyle: Theme.of(context).textTheme.labelLarge,
-                      backgroundColor: Colors.deepOrangeAccent
-                    ),
-                  ),
-                )
-              ],
-            ),
-          );
+          return AddNewFood();
+          // return SizedBox(
+          //   height: 700,
+          //   child: Column(
+          //     children: [
+          //       Padding(
+          //         padding: EdgeInsets.all(10),
+          //         child: Row(
+          //           children: [
+          //             const Expanded(
+          //               child: Center(
+          //                   child: Text('Thêm món mới')
+          //               ),
+          //             ),
+          //             InkWell(
+          //               child: Icon(Icons.close),
+          //               onTap: (){
+          //                 Navigator.of(context).pop();
+          //               },
+          //             )
+          //           ],
+          //         ),
+          //       ),
+          //       Divider(),
+          //       const Expanded(
+          //         child: Column(),
+          //       ),
+          //       Padding(
+          //         padding: EdgeInsets.all(10),
+          //         child: ElevatedButton(
+          //           child: Text('Thêm vào giỏ hàng 1000 \$'),
+          //           onPressed: (){},
+          //           style: TextButton.styleFrom(
+          //             textStyle: Theme.of(context).textTheme.labelLarge,
+          //             backgroundColor: Colors.deepOrangeAccent
+          //           ),
+          //         ),
+          //       )
+          //     ],
+          //   ),
+          // );
         }
     );
   }
