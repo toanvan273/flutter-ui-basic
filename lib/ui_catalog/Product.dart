@@ -59,5 +59,16 @@ class ProductOrder {
 }
 
 List<Topping> allTopping = <Topping>[
-
+  Topping(1, 'Pudding', 20),
+  Topping(2, 'Kem trung', 10),
+  Topping(3, 'Chan chau', 5),
+  Topping(4, 'Trân Châu Hoàng Kim', 7),
+  Topping(5, 'Dau do', 7),
+  Topping(6, 'Thach den', 7),
+  Topping(7, 'Thach den', 7),
+  Topping(8, 'Tran Chau Den', 7),
+  Topping(9, 'Kem Chese', 7),
+  Topping(10, 'Chan Chau Trang', 7),
+  Topping(11, 'Kem Dua', 7),
+  Topping(12, 'Kem Trung', 7)
 ];
