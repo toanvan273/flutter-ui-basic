@@ -49,6 +49,22 @@ class Topping{
   Topping(this.id, this.name, this.price);
 }
 
+class Sugar{
+  int id;
+  double level;
+  int price;
+
+  Sugar(this.id, this.level, this.price);
+}
+
+List<Sugar> sugarList = <Sugar>[
+  Sugar(1, 1.0, 0),
+  Sugar(2, 0.7, 0),
+  Sugar(3, 0.5, 0),
+  Sugar(4, 0.3, 0),
+  Sugar(5, 0, 0)
+];
+
 class ProductOrder {
   Product? product;
   int? quantity;
@@ -59,9 +75,38 @@ class ProductOrder {
   double? ice;
   String? note;
 
-  ProductOrder(this.product, this.quantity, this.saled, this.like,
-      this.toppings, this.sugar, this.ice, this.note);
+  ProductOrder({
+    this.product,
+    this.quantity,
+    this.saled,
+    this.like,
+    this.toppings,
+    this.sugar,
+    this.ice,
+    this.note
+  });
 
+  ProductOrder copyWith({
+    Product? product,
+    int? quantity,
+    int? saled,
+    int? like,
+    List<Topping>? toppings,
+    double? sugar,
+    double? ice,
+    String? note
+  }){
+  return ProductOrder(
+      product: product ?? this.product,
+      quantity: quantity ?? this.quantity,
+      saled: saled ?? this.saled,
+      like: saled ?? this.saled,
+      toppings: toppings??this.toppings,
+      sugar: sugar?? this.sugar,
+      ice: ice??this.ice,
+      note: note??this.note
+  );
+ }
 }
 
 List<Topping> allTopping = <Topping>[

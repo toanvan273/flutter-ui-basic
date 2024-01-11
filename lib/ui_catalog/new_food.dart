@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_ui/ui_catalog/Product.dart';
 
 class AddNewFood extends StatefulWidget{
-  final ProductOrder productOrder = ProductOrder();
+  // final ProductOrder productOrder = ProductOrder();
   Product product;
   AddNewFood(this.product);
 
@@ -13,8 +13,10 @@ class AddNewFood extends StatefulWidget{
 }
 
 class _AddNewFood extends State<AddNewFood>{
+  ProductOrder productOrder = ProductOrder();
   @override
   Widget build(BuildContext context) {
+    productOrder.copyWith(product: widget.product);
     return SizedBox(
       child: Column(
         children: [
@@ -52,7 +54,6 @@ class _AddNewFood extends State<AddNewFood>{
           Padding(
             padding: EdgeInsets.all(10),
             child: ElevatedButton(
-              child: Text('Thêm vào giỏ hàng 1000 \$'),
               onPressed: (){
                 Navigator.of(context).pop();
               },
@@ -60,6 +61,7 @@ class _AddNewFood extends State<AddNewFood>{
                   textStyle: Theme.of(context).textTheme.labelLarge,
                   backgroundColor: Colors.deepOrangeAccent
               ),
+              child: Text('Thêm vào giỏ hàng 1000 \$'),
             ),
           )
         ],
@@ -92,6 +94,7 @@ class MyDrink extends StatelessWidget{
                   children: [
                     Expanded(
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(product.name , style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
                           const Row(
@@ -122,7 +125,6 @@ class MyDrink extends StatelessWidget{
                           children: [
                             InkWell(
                               child: Container(
-                                child: Icon(Icons.remove,color: Colors.deepOrange),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(2),
                                   border: Border.all(
@@ -131,6 +133,7 @@ class MyDrink extends StatelessWidget{
                                     width: 1.0,
                                   ),
                                 ),
+                                child: Icon(Icons.remove,color: Colors.deepOrange),
                               ),
                             ),
                             const Padding(
@@ -139,7 +142,6 @@ class MyDrink extends StatelessWidget{
                             ),
                             InkWell(
                               child: Container(
-                                child: Icon(Icons.add, color: Colors.white,),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(2),
                                   color: Colors.deepOrange,
@@ -149,6 +151,7 @@ class MyDrink extends StatelessWidget{
                                     width: 1.0,
                                   ),
                                 ),
+                                child: Icon(Icons.add, color: Colors.white,),
                               ),
                             ),
                           ],
@@ -167,7 +170,6 @@ class MyDrink extends StatelessWidget{
 
 class MyTopping extends StatefulWidget{
   Product product;
-
   MyTopping(this.product);
 
   @override
@@ -191,8 +193,69 @@ class _MyTopping extends State<MyTopping>{
           ),
         ),
         for(final topping in allTopping)
-          RowItemCheckbox(topping)
+          RowItemCheckbox(topping),
+        FractionallySizedBox(
+          widthFactor: 1,
+          child:  Container(
+            // margin: EdgeInsets.only(top: 10),
+            padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+            color: Colors.grey,
+            child: Text('MỨC ĐƯỜNG (Sugar, toi da 1)'),
+          ),
+        ),
+        for(final sugar in sugarList)
+          RowSugarCheckbox(sugar),
       ],
+    );
+  }
+}
+
+
+class RowSugarCheckbox extends StatefulWidget {
+  final MAX_TOPPING = 1;
+  Sugar sugar;
+  RowSugarCheckbox(this.sugar);
+
+  @override
+  State<RowSugarCheckbox> createState() => _RowSugarCheckbox();
+}
+
+class _RowSugarCheckbox extends State<RowSugarCheckbox>{
+  bool isChecked = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+          border: Border(
+              bottom: BorderSide(color: Color(0xFDADADAD))
+          )
+      ),
+      child: Row(
+        children: [
+          Expanded(
+              child: Padding(
+                padding: EdgeInsets.only(left: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('${(widget.sugar.level*100).toInt()}% Đường', style: TextStyle(fontWeight: FontWeight.w500),),
+                    Text('${widget.sugar.price.toString()}đ')
+                  ],
+                ),
+              )
+          ),
+          Checkbox(
+            checkColor: Colors.white,
+            value: isChecked,
+            onChanged: (bool? value) {
+              setState(() {
+                isChecked = value!;
+              });
+            },
+          )
+        ],
+      ),
     );
   }
 }
@@ -200,7 +263,6 @@ class _MyTopping extends State<MyTopping>{
 
 class RowItemCheckbox extends StatefulWidget {
   final MAX_TOPPING = 5;
-
   Topping topping;
   RowItemCheckbox(this.topping);
 
@@ -227,6 +289,11 @@ class _RowItemCheckbox extends State<RowItemCheckbox> {
       return Colors.red;
     }
     return Container(
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(color: Color(0xFDADADAD))
+        )
+      ),
       child: Row(
         children: [
           Expanded(
@@ -253,11 +320,6 @@ class _RowItemCheckbox extends State<RowItemCheckbox> {
             },
           )
         ],
-      ),
-      decoration: BoxDecoration(
-        border: Border(
-          bottom: BorderSide(color: Color(0xFDADADAD))
-        )
       ),
     );
   }
