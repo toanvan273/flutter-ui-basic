@@ -1,7 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_ui/ui_catalog/Product.dart';
 
-class AddNewFood extends StatelessWidget{
+class AddNewFood extends StatefulWidget{
+  final ProductOrder productOrder = ProductOrder();
+  Product product;
+  AddNewFood(this.product);
+
+  @override
+  State<StatefulWidget> createState() {
+    return _AddNewFood();
+  }
+}
+
+class _AddNewFood extends State<AddNewFood>{
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -29,100 +40,13 @@ class AddNewFood extends StatelessWidget{
                   ),
                 ),
                 Divider(),
-                Container(
-                  height: 80,
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  child: Row(
-                    children: [
-                      Container(
-                        width: 80,
-                        height: 80,
-                        color: Colors.black45,
-                      ),
-                       Expanded(
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 10),
-                          child: Column(
-                            children: [
-                              Expanded(
-                                child: Column(
-                                  children: [
-                                    Text('Tra Chanh Gia Tay', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-                                    Row(
-                                      children: [
-                                        Text('717 da ban', style: TextStyle(color: Colors.black45, fontSize: 14),),
-                                        Padding(
-                                          padding: EdgeInsets.symmetric(horizontal: 5),
-                                          child: Text('|', style: TextStyle(color: Colors.black45, fontSize: 14)),
-                                        ),
-                                        Text('7 Luot thich', style: TextStyle(color: Colors.black45, fontSize: 14))
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              ),
-                              Row(children: [
-                                Expanded(
-                                  child: Row(
-                                    children: [
-                                      Text('40,000d', style: TextStyle(color: Colors.black, fontSize: 14)),
-                                      SizedBox(width: 5),
-                                      Text('38,000d', style: TextStyle(fontSize: 16, color: Colors.deepOrangeAccent),)
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  child: Row(
-                                    children: [
-                                      InkWell(
-                                        child: Container(
-                                          child: Icon(Icons.remove,color: Colors.deepOrange),
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(2),
-
-                                            border: Border.all(
-                                              color:  Colors.deepOrange,
-                                              style: BorderStyle.solid,
-                                              width: 1.0,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.symmetric(horizontal: 10),
-                                        child: Text('1'),
-                                      ),
-                                      InkWell(
-                                        child: Container(
-                                          child: Icon(Icons.add, color: Colors.white,),
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(2),
-                                            color: Colors.deepOrange,
-                                            border: Border.all(
-                                              color:  Colors.deepOrange,
-                                              style: BorderStyle.solid,
-                                              width: 1.0,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                )
-                              ])
-                            ],
-                          ),
-                        )
-                      )
-                    ],
-                  ),
-                ),
+                MyDrink(widget.product)
               ],
             ),
           ),
           Expanded(
             child: SingleChildScrollView(
-              child: MyTopping(),
+              child: MyTopping(widget.product),
             ),
           ),
           Padding(
@@ -144,7 +68,108 @@ class AddNewFood extends StatelessWidget{
   }
 }
 
+class MyDrink extends StatelessWidget{
+  Product product;
+  MyDrink(this.product);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 80,
+      padding: EdgeInsets.symmetric(horizontal: 10),
+      margin: EdgeInsets.only(bottom: 10),
+      child: Row(
+        children: [
+          Container(
+            width: 80,
+            height: 80,
+            color: Colors.black45,
+          ),
+          Expanded(
+              child: Padding(
+                padding: EdgeInsets.only(left: 10),
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        children: [
+                          Text(product.name , style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                          const Row(
+                            children: [
+                              Text('717 da ban', style: TextStyle(color: Colors.black45, fontSize: 14),),
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 5),
+                                child: Text('|', style: TextStyle(color: Colors.black45, fontSize: 14)),
+                              ),
+                              Text('7 Luot thich', style: TextStyle(color: Colors.black45, fontSize: 14))
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                    Row(children: [
+                      Expanded(
+                        child: Row(
+                          children: [
+                            Text('${product.price*0.9}đ', style: TextStyle(color: Colors.black, fontSize: 14)),
+                            SizedBox(width: 5),
+                            Text('${product.price}đ', style: TextStyle(fontSize: 16, color: Colors.deepOrangeAccent),)
+                          ],
+                        ),
+                      ),
+                      Container(
+                        child: Row(
+                          children: [
+                            InkWell(
+                              child: Container(
+                                child: Icon(Icons.remove,color: Colors.deepOrange),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(2),
+                                  border: Border.all(
+                                    color:  Colors.deepOrange,
+                                    style: BorderStyle.solid,
+                                    width: 1.0,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 10),
+                              child: Text('1'),
+                            ),
+                            InkWell(
+                              child: Container(
+                                child: Icon(Icons.add, color: Colors.white,),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(2),
+                                  color: Colors.deepOrange,
+                                  border: Border.all(
+                                    color:  Colors.deepOrange,
+                                    style: BorderStyle.solid,
+                                    width: 1.0,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    ])
+                  ],
+                ),
+              )
+          )
+        ],
+      ),
+    );
+  }
+}
+
 class MyTopping extends StatefulWidget{
+  Product product;
+
+  MyTopping(this.product);
+
   @override
   State<StatefulWidget> createState() {
     return _MyTopping();
@@ -154,11 +179,16 @@ class _MyTopping extends State<MyTopping>{
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          height: 20,
-          padding: EdgeInsets.symmetric(horizontal: 10),
-          child: Text('TOPPING (Topping, toi da 5)'),
+        FractionallySizedBox(
+          widthFactor: 1,
+          child:  Container(
+            // margin: EdgeInsets.only(top: 10),
+            padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+            color: Colors.grey,
+            child: Text('TOPPING (Topping, toi da 5)'),
+          ),
         ),
         for(final topping in allTopping)
           RowItemCheckbox(topping)

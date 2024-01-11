@@ -103,51 +103,11 @@ class Actions extends StatefulWidget {
 class ActionButton extends State<Actions> {
   bool added = false;
 
-  Future<void> bottomSheetBuilder(BuildContext context){
+  Future<void> bottomSheetBuilder(BuildContext context, Product product){
     return showModalBottomSheet<void>(
         context: context,
         builder: (BuildContext context){
-          return AddNewFood();
-          // return SizedBox(
-          //   height: 700,
-          //   child: Column(
-          //     children: [
-          //       Padding(
-          //         padding: EdgeInsets.all(10),
-          //         child: Row(
-          //           children: [
-          //             const Expanded(
-          //               child: Center(
-          //                   child: Text('Thêm món mới')
-          //               ),
-          //             ),
-          //             InkWell(
-          //               child: Icon(Icons.close),
-          //               onTap: (){
-          //                 Navigator.of(context).pop();
-          //               },
-          //             )
-          //           ],
-          //         ),
-          //       ),
-          //       Divider(),
-          //       const Expanded(
-          //         child: Column(),
-          //       ),
-          //       Padding(
-          //         padding: EdgeInsets.all(10),
-          //         child: ElevatedButton(
-          //           child: Text('Thêm vào giỏ hàng 1000 \$'),
-          //           onPressed: (){},
-          //           style: TextButton.styleFrom(
-          //             textStyle: Theme.of(context).textTheme.labelLarge,
-          //             backgroundColor: Colors.deepOrangeAccent
-          //           ),
-          //         ),
-          //       )
-          //     ],
-          //   ),
-          // );
+          return AddNewFood(product);
         }
     );
   }
@@ -160,10 +120,10 @@ class ActionButton extends State<Actions> {
           return ElevatedButton(
               onPressed:  (){
                 context.read<CartBloc>().add(CartEventAdd(widget.product));
-                setState(() {
-                  added = !added;
-                });
-                bottomSheetBuilder(context);
+                // setState(() {
+                //   added = !added;
+                // });
+                bottomSheetBuilder(context, widget.product);
               }
               , child: const Text('Add')
           );
@@ -172,9 +132,10 @@ class ActionButton extends State<Actions> {
           child: !added ? ElevatedButton(
               onPressed:  (){
                 context.read<CartBloc>().add(CartEventAdd(widget.product));
-                setState(() {
-                  added = !added;
-                });
+                // setState(() {
+                //   added = !added;
+                // });
+                bottomSheetBuilder(context, widget.product);
               }
               , child: const Text('Add')
           ) : const ElevatedButton(onPressed: null, child: Icon(Icons.check)),

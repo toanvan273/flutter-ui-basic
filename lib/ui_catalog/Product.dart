@@ -14,6 +14,11 @@ class Product {
     required this.name,
     required this.price
   });
+
+  @override
+  String toString() {
+    return 'id: $id Name: $name Price: $price';
+  }
 }
 
 List<Product> products = <Product>[
@@ -45,17 +50,18 @@ class Topping{
 }
 
 class ProductOrder {
-  Product product;
-  int quantity;
-  int saled;
-  int like;
-  List<Topping> toppings;
-  double sugar;
-  double ice;
-  String note;
+  Product? product;
+  int? quantity;
+  int? saled;
+  int? like;
+  List<Topping>? toppings;
+  double? sugar;
+  double? ice;
+  String? note;
 
   ProductOrder(this.product, this.quantity, this.saled, this.like,
       this.toppings, this.sugar, this.ice, this.note);
+
 }
 
 List<Topping> allTopping = <Topping>[
