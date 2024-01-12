@@ -52,9 +52,7 @@ class _MyCatalog extends StatelessWidget {
       child: Column(
         children: [
           for (final product in products)
-            ProductItem(
-                product
-            )
+            ProductItem(product)
         ],
       ),
     );

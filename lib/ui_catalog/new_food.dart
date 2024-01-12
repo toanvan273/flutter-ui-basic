@@ -13,9 +13,17 @@ class AddNewFood extends StatefulWidget{
 
 class _AddNewFood extends State<AddNewFood>{
   ProductOrder productOrder = ProductOrder();
+  Future<void> handleSetState(dynamic t, dynamic value) async {
+    print(t);
+    print(value);
+    setState(() {
+      productOrder = productOrder.copyWith(t: value);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    print(productOrder.toString());
     return SizedBox(
       child: Column(
         children: [
@@ -35,6 +43,12 @@ class _AddNewFood extends State<AddNewFood>{
                         child: Icon(Icons.close),
                         onTap: (){
                           Navigator.of(context).pop();
+                        },
+                      ),
+                      InkWell(
+                        child: Icon(Icons.open_in_browser),
+                        onTap: (){
+                          handleSetState('quantity', 1);
                         },
                       )
                     ],
@@ -73,12 +87,10 @@ class MyDrink extends StatefulWidget{
   Product product;
   ProductOrder productOrder;
 
-
   MyDrink(this.product, this.productOrder);
 
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
     return _MyDrink();
   }
 }
@@ -467,7 +479,6 @@ class _RowItemCheckbox extends State<RowItemCheckbox> {
           ),
           Checkbox(
             checkColor: Colors.white,
-            // fillColor: MaterialStateProperty.resolveWith(getColor),
             // fillColor: Colors.green,
             value: isChecked,
             onChanged: (bool? value) {
