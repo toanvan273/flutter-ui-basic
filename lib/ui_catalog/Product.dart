@@ -107,6 +107,18 @@ class ProductOrder {
       note: note??this.note
   );
  }
+ @override
+  String toString() {
+    // TODO: implement toString
+    return 'Product: {${product.toString()}} '
+        ' quantity: $quantity'
+        ' saled: $saled'
+        ' like $like'
+        ' topping ${toppings?.length}'
+        ' sugar: $sugar'
+        ' ice: $ice'
+        ' note: $note';
+  }
 }
 
 List<Topping> allTopping = <Topping>[

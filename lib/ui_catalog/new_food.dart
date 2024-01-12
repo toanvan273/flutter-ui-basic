@@ -14,9 +14,15 @@ class AddNewFood extends StatefulWidget{
 
 class _AddNewFood extends State<AddNewFood>{
   ProductOrder productOrder = ProductOrder();
+
+  // Future<void> _setState(String param, dynamic value){
+  //   return;
+  // }
   @override
   Widget build(BuildContext context) {
-    productOrder.copyWith(product: widget.product);
+    // productOrder.copyWith(product: widget.product);
+    print('Dad:');
+    print(productOrder.toString());
     return SizedBox(
       child: Column(
         children: [
@@ -42,7 +48,7 @@ class _AddNewFood extends State<AddNewFood>{
                   ),
                 ),
                 Divider(),
-                MyDrink(widget.product)
+                MyDrink(widget.product, productOrder)
               ],
             ),
           ),
@@ -70,9 +76,22 @@ class _AddNewFood extends State<AddNewFood>{
   }
 }
 
-class MyDrink extends StatelessWidget{
+class MyDrink extends StatefulWidget{
   Product product;
-  MyDrink(this.product);
+  ProductOrder productOrder;
+
+
+  MyDrink(this.product, this.productOrder);
+
+  @override
+  State<StatefulWidget> createState() {
+    // TODO: implement createState
+    return _MyDrink();
+  }
+}
+
+class _MyDrink extends State<MyDrink>{
+  int localQuantity = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +115,7 @@ class MyDrink extends StatelessWidget{
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(product.name , style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                          Text(widget.product.name , style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
                           const Row(
                             children: [
                               Text('717 da ban', style: TextStyle(color: Colors.black45, fontSize: 14),),
@@ -114,9 +133,9 @@ class MyDrink extends StatelessWidget{
                       Expanded(
                         child: Row(
                           children: [
-                            Text('${product.price*0.9}đ', style: TextStyle(color: Colors.black, fontSize: 14)),
+                            Text('${widget.product.price*0.9}đ', style: TextStyle(color: Colors.black, fontSize: 14)),
                             SizedBox(width: 5),
-                            Text('${product.price}đ', style: TextStyle(fontSize: 16, color: Colors.deepOrangeAccent),)
+                            Text('${widget.product.price}đ', style: TextStyle(fontSize: 16, color: Colors.deepOrangeAccent),)
                           ],
                         ),
                       ),
@@ -124,6 +143,11 @@ class MyDrink extends StatelessWidget{
                         child: Row(
                           children: [
                             InkWell(
+                              onTap: (){
+                                setState(() {
+                                  localQuantity = localQuantity==0?0:localQuantity-1;
+                                });
+                              },
                               child: Container(
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(2),
@@ -136,11 +160,16 @@ class MyDrink extends StatelessWidget{
                                 child: Icon(Icons.remove,color: Colors.deepOrange),
                               ),
                             ),
-                            const Padding(
+                            Padding(
                               padding: EdgeInsets.symmetric(horizontal: 10),
-                              child: Text('1'),
+                              child: Text('$localQuantity'),
                             ),
                             InkWell(
+                              onTap: (){
+                                setState(() {
+                                  localQuantity = localQuantity+1;
+                                });
+                              },
                               child: Container(
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(2),
@@ -204,7 +233,18 @@ class _MyTopping extends State<MyTopping>{
           ),
         ),
         for(final sugar in sugarList)
-          RowSugarCheckbox(sugar),
+          RowSugarCheckbox(sugar,'Đường'),
+        FractionallySizedBox(
+          widthFactor: 1,
+          child:  Container(
+            // margin: EdgeInsets.only(top: 10),
+            padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+            color: Colors.grey,
+            child: Text('MỨC ĐÁ (ICE, toi da 1)'),
+          ),
+        ),
+        for(final sugar in sugarList)
+          RowSugarCheckbox(sugar,'Đá'),
       ],
     );
   }
@@ -214,7 +254,8 @@ class _MyTopping extends State<MyTopping>{
 class RowSugarCheckbox extends StatefulWidget {
   final MAX_TOPPING = 1;
   Sugar sugar;
-  RowSugarCheckbox(this.sugar);
+  String type;
+  RowSugarCheckbox(this.sugar, this.type);
 
   @override
   State<RowSugarCheckbox> createState() => _RowSugarCheckbox();
@@ -239,7 +280,7 @@ class _RowSugarCheckbox extends State<RowSugarCheckbox>{
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('${(widget.sugar.level*100).toInt()}% Đường', style: TextStyle(fontWeight: FontWeight.w500),),
+                    Text('${(widget.sugar.level*100).toInt()}% ${widget.type}', style: TextStyle(fontWeight: FontWeight.w500),),
                     Text('${widget.sugar.price.toString()}đ')
                   ],
                 ),
