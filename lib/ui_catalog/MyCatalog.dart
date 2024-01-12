@@ -106,8 +106,18 @@ class ActionButton extends State<Actions> {
   Future<void> bottomSheetBuilder(BuildContext context, Product product){
     return showModalBottomSheet<void>(
         context: context,
+        isScrollControlled: true,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(5),
+              topRight: Radius.circular(5)
+          )
+        ),
         builder: (BuildContext context){
-          return AddNewFood(product);
+          return FractionallySizedBox(
+            heightFactor: 0.8,
+            child: AddNewFood(product),
+          );
         }
     );
   }

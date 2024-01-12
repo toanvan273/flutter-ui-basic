@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_ui/ui_catalog/Product.dart';
 
 class AddNewFood extends StatefulWidget{
-  // final ProductOrder productOrder = ProductOrder();
   Product product;
   AddNewFood(this.product);
 
@@ -15,14 +14,8 @@ class AddNewFood extends StatefulWidget{
 class _AddNewFood extends State<AddNewFood>{
   ProductOrder productOrder = ProductOrder();
 
-  // Future<void> _setState(String param, dynamic value){
-  //   return;
-  // }
   @override
   Widget build(BuildContext context) {
-    // productOrder.copyWith(product: widget.product);
-    print('Dad:');
-    print(productOrder.toString());
     return SizedBox(
       child: Column(
         children: [
@@ -245,11 +238,134 @@ class _MyTopping extends State<MyTopping>{
         ),
         for(final sugar in sugarList)
           RowSugarCheckbox(sugar,'Đá'),
+        MyNote()
       ],
     );
   }
 }
 
+class MyNote extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.only(left: 10, top: 5),
+      child: InkWell(
+        onTap: (){
+          // print('ABCD');
+          showModalBottomSheet(
+              context: context,
+              isScrollControlled: true,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(5),
+                      topRight: Radius.circular(5)
+                  )
+              ),
+              builder: (context){
+                return FractionallySizedBox(
+                  heightFactor: 0.6,
+                  child: TextNoteCustomer(),
+                );
+              }
+          );
+        },
+        child: const Row(
+          children: [
+            Icon(Icons.note_add),
+            Padding(padding: EdgeInsets.all(5)),
+            Text('Ghi chú...')
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class TextNoteCustomer extends StatefulWidget{
+  @override
+  State<StatefulWidget> createState() {
+    return _TextNoteCustomer();
+  }
+}
+
+class _TextNoteCustomer extends State<TextNoteCustomer>{
+  late TextEditingController _controller;
+  String note = '';
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.all(10),
+            child: Row(
+              children: [
+                InkWell(
+                  onTap: (){
+                    Navigator.pop(context);
+                  },
+                  child: Text('Hủy'),
+                ),
+                Expanded(
+                  child: Center(child: Text('Thêm ghi chú')),
+                ),
+                InkWell(
+                  onTap: (){
+                    Navigator.pop(context);
+                  },
+                  child: Text('Xong'),
+                )
+              ],
+            ),
+          ),
+          Divider(),
+          Container(
+            padding: EdgeInsets.all(10),
+            child: TextField(
+              // obscureText: true,
+              controller: _controller,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Ghi chú dành cho quán',
+              ),
+              onChanged: (v){
+                setState(() {
+                  note = v;
+                });
+              },
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            child: Row(children: [
+              Column(
+                children: [
+                  Text('Gợi ý'),
+                  Text('Abc')
+                ],
+              ),
+              Expanded(child: SizedBox()),
+              Text('${note.length}/100')
+            ],),
+          )
+        ],
+      ),
+    );
+  }
+}
 
 class RowSugarCheckbox extends StatefulWidget {
   final MAX_TOPPING = 1;
