@@ -338,7 +338,7 @@ class _TextNoteCustomer extends State<TextNoteCustomer>{
               // obscureText: true,
               controller: _controller,
               decoration: InputDecoration(
-                border: OutlineInputBorder(),
+                border: UnderlineInputBorder(),
                 labelText: 'Ghi chú dành cho quán',
               ),
               onChanged: (v){
