@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_ui/ui_catalog/Product.dart';
 import 'package:flutter_ui/ui_catalog/cart_bloc.dart';
+import 'package:flutter_ui/ui_catalog/drink_bloc.dart';
 
 
 class MyCart extends StatelessWidget{
-  VoidCallback? handleSubmit(Product p, BuildContext context){
-    print(p);
-  }
+
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CartBloc, CartState>(
+    return BlocBuilder<DrinkBloc, DrinkState>(
       builder: (context, state){
         return Scaffold(
           appBar: AppBar(
@@ -48,16 +46,16 @@ class MyCart extends StatelessWidget{
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
-                        for (final product in state.products)
+                        for (final p in state.listProductOrder)
                           Row(
                             children: [
                               Expanded(
-                                  child: Text('${product.name}')
+                                  child: Text('${p.product.name}')
                               ),
                               ElevatedButton(
                                   child: const Text('Delete'),
                                   onPressed: (){
-                                    context.read<CartBloc>().add(CartEventRemove(product.id));
+                                    context.read<CartBloc>().add(CartEventRemove(p.product.id));
                                   }
                               )
                             ],

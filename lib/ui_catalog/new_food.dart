@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ui/ui_catalog/Product.dart';
+import 'package:flutter_ui/ui_catalog/drink_bloc.dart';
 
 class AddNewFood extends StatefulWidget{
   Product product;
@@ -12,18 +14,8 @@ class AddNewFood extends StatefulWidget{
 }
 
 class _AddNewFood extends State<AddNewFood>{
-  ProductOrder productOrder = ProductOrder();
-  Future<void> handleSetState(dynamic t, dynamic value) async {
-    print(t);
-    print(value);
-    setState(() {
-      productOrder = productOrder.copyWith(t: value);
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    print(productOrder.toString());
     return SizedBox(
       child: Column(
         children: [
@@ -48,14 +40,14 @@ class _AddNewFood extends State<AddNewFood>{
                       InkWell(
                         child: Icon(Icons.open_in_browser),
                         onTap: (){
-                          handleSetState('quantity', 1);
+
                         },
                       )
                     ],
                   ),
                 ),
                 Divider(),
-                MyDrink(widget.product, productOrder)
+                MyDrink(widget.product)
               ],
             ),
           ),
@@ -68,6 +60,7 @@ class _AddNewFood extends State<AddNewFood>{
             padding: EdgeInsets.all(10),
             child: ElevatedButton(
               onPressed: (){
+                context.read<DrinkBloc>().add(DrinkAddOrderEvent());
                 Navigator.of(context).pop();
               },
               style: TextButton.styleFrom(
@@ -85,9 +78,7 @@ class _AddNewFood extends State<AddNewFood>{
 
 class MyDrink extends StatefulWidget{
   Product product;
-  ProductOrder productOrder;
-
-  MyDrink(this.product, this.productOrder);
+  MyDrink(this.product);
 
   @override
   State<StatefulWidget> createState() {
@@ -144,52 +135,59 @@ class _MyDrink extends State<MyDrink>{
                           ],
                         ),
                       ),
-                      Container(
-                        child: Row(
-                          children: [
-                            InkWell(
-                              onTap: (){
-                                setState(() {
-                                  localQuantity = localQuantity==0?0:localQuantity-1;
-                                });
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(2),
-                                  border: Border.all(
-                                    color:  Colors.deepOrange,
-                                    style: BorderStyle.solid,
-                                    width: 1.0,
+                      BlocBuilder<DrinkBloc, DrinkState>(
+                        builder: (context, state){
+                          return Container(
+                            child: Row(
+                              children: [
+                                InkWell(
+                                  onTap: (){
+                                    int quantity = localQuantity==0?0:localQuantity-1;
+                                    context.read<DrinkBloc>().add(DrinkAddEvent(product: widget.product, quantity: quantity));
+                                    setState(() {
+                                      localQuantity = quantity;
+                                    });
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(2),
+                                      border: Border.all(
+                                        color:  Colors.deepOrange,
+                                        style: BorderStyle.solid,
+                                        width: 1.0,
+                                      ),
+                                    ),
+                                    child: Icon(Icons.remove,color: Colors.deepOrange),
                                   ),
                                 ),
-                                child: Icon(Icons.remove,color: Colors.deepOrange),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 10),
-                              child: Text('$localQuantity'),
-                            ),
-                            InkWell(
-                              onTap: (){
-                                setState(() {
-                                  localQuantity = localQuantity+1;
-                                });
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(2),
-                                  color: Colors.deepOrange,
-                                  border: Border.all(
-                                    color:  Colors.deepOrange,
-                                    style: BorderStyle.solid,
-                                    width: 1.0,
+                                Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 10),
+                                  child: Text('$localQuantity'),
+                                ),
+                                InkWell(
+                                  onTap: (){
+                                    context.read<DrinkBloc>().add(DrinkAddEvent(product: widget.product, quantity: localQuantity+1));
+                                    setState(() {
+                                      localQuantity = localQuantity+1;
+                                    });
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(2),
+                                      color: Colors.deepOrange,
+                                      border: Border.all(
+                                        color:  Colors.deepOrange,
+                                        style: BorderStyle.solid,
+                                        width: 1.0,
+                                      ),
+                                    ),
+                                    child: Icon(Icons.add, color: Colors.white,),
                                   ),
                                 ),
-                                child: Icon(Icons.add, color: Colors.white,),
-                              ),
+                              ],
                             ),
-                          ],
-                        ),
+                          );
+                        },
                       )
                     ])
                   ],
@@ -214,56 +212,64 @@ class MyTopping extends StatefulWidget{
 class _MyTopping extends State<MyTopping>{
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        FractionallySizedBox(
-          widthFactor: 1,
-          child:  Container(
-            // margin: EdgeInsets.only(top: 10),
-            padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-            color: Colors.grey,
-            child: Text('TOPPING (Topping, toi da 5)'),
-          ),
-        ),
-        for(final topping in allTopping)
-          RowItemCheckbox(topping),
-        FractionallySizedBox(
-          widthFactor: 1,
-          child:  Container(
-            // margin: EdgeInsets.only(top: 10),
-            padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-            color: Colors.grey,
-            child: Text('MỨC ĐƯỜNG (Sugar, toi da 1)'),
-          ),
-        ),
-        for(final sugar in sugarList)
-          RowSugarCheckbox(sugar,'Đường'),
-        FractionallySizedBox(
-          widthFactor: 1,
-          child:  Container(
-            // margin: EdgeInsets.only(top: 10),
-            padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-            color: Colors.grey,
-            child: Text('MỨC ĐÁ (ICE, toi da 1)'),
-          ),
-        ),
-        for(final sugar in sugarList)
-          RowSugarCheckbox(sugar,'Đá'),
-        MyNote()
-      ],
+    return BlocBuilder<DrinkBloc, DrinkState>(
+      builder: (context, state){
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            FractionallySizedBox(
+              widthFactor: 1,
+              child:  Container(
+                // margin: EdgeInsets.only(top: 10),
+                padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                color: Colors.grey,
+                child: Text('TOPPING (Topping, toi da 5)'),
+              ),
+            ),
+            for(final topping in allTopping)
+              RowItemCheckbox(topping, widget.product),
+            FractionallySizedBox(
+              widthFactor: 1,
+              child:  Container(
+                // margin: EdgeInsets.only(top: 10),
+                padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                color: Colors.grey,
+                child: Text('MỨC ĐƯỜNG (Sugar, toi da 1)'),
+              ),
+            ),
+            for(final sugar in sugarList)
+              RowSugarCheckbox(sugar,'Đường', widget.product),
+            FractionallySizedBox(
+              widthFactor: 1,
+              child:  Container(
+                // margin: EdgeInsets.only(top: 10),
+                padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                color: Colors.grey,
+                child: Text('MỨC ĐÁ (ICE, toi da 1)'),
+              ),
+            ),
+            for(final sugar in sugarList)
+              RowSugarCheckbox(sugar,'Đá', widget.product),
+            MyNote(widget.product)
+          ],
+        );
+      },
     );
+
   }
 }
 
 class MyNote extends StatelessWidget {
+  Product product;
+
+  MyNote(this.product);
+
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(left: 10, top: 5),
       child: InkWell(
         onTap: (){
-          // print('ABCD');
           showModalBottomSheet(
               context: context,
               isScrollControlled: true,
@@ -276,7 +282,7 @@ class MyNote extends StatelessWidget {
               builder: (context){
                 return FractionallySizedBox(
                   heightFactor: 0.6,
-                  child: TextNoteCustomer(),
+                  child: TextNoteCustomer(product),
                 );
               }
           );
@@ -294,6 +300,10 @@ class MyNote extends StatelessWidget {
 }
 
 class TextNoteCustomer extends StatefulWidget{
+  Product product;
+
+  TextNoteCustomer(this.product);
+
   @override
   State<StatefulWidget> createState() {
     return _TextNoteCustomer();
@@ -354,6 +364,7 @@ class _TextNoteCustomer extends State<TextNoteCustomer>{
                 labelText: 'Ghi chú dành cho quán',
               ),
               onChanged: (v){
+                context.read<DrinkBloc>().add(DrinkAddEvent(product: widget.product, note: v));
                 setState(() {
                   note = v;
                 });
@@ -383,7 +394,9 @@ class RowSugarCheckbox extends StatefulWidget {
   final MAX_TOPPING = 1;
   Sugar sugar;
   String type;
-  RowSugarCheckbox(this.sugar, this.type);
+  Product product;
+
+  RowSugarCheckbox(this.sugar, this.type, this.product);
 
   @override
   State<RowSugarCheckbox> createState() => _RowSugarCheckbox();
@@ -394,6 +407,7 @@ class _RowSugarCheckbox extends State<RowSugarCheckbox>{
 
   @override
   Widget build(BuildContext context) {
+
     return Container(
       decoration: BoxDecoration(
           border: Border(
@@ -418,6 +432,10 @@ class _RowSugarCheckbox extends State<RowSugarCheckbox>{
             checkColor: Colors.white,
             value: isChecked,
             onChanged: (bool? value) {
+              if(value!){
+                print(value);
+                context.read<DrinkBloc>().add(DrinkAddEvent(product: widget.product, sugar: widget.sugar.level));
+              }
               setState(() {
                 isChecked = value!;
               });
@@ -433,7 +451,8 @@ class _RowSugarCheckbox extends State<RowSugarCheckbox>{
 class RowItemCheckbox extends StatefulWidget {
   final MAX_TOPPING = 5;
   Topping topping;
-  RowItemCheckbox(this.topping);
+  Product product;
+  RowItemCheckbox(this.topping, this.product);
 
   @override
   State<RowItemCheckbox> createState() => _RowItemCheckbox();
@@ -444,19 +463,6 @@ class _RowItemCheckbox extends State<RowItemCheckbox> {
 
   @override
   Widget build(BuildContext context) {
-
-    Color getColor(Set<MaterialState> states) {
-      const Set<MaterialState> interactiveStates = <MaterialState>{
-        MaterialState.pressed,
-        MaterialState.hovered,
-        MaterialState.focused,
-      };
-
-      if (states.any(interactiveStates.contains)) {
-        return Colors.blue;
-      }
-      return Colors.red;
-    }
     return Container(
       decoration: BoxDecoration(
         border: Border(
@@ -482,6 +488,9 @@ class _RowItemCheckbox extends State<RowItemCheckbox> {
             // fillColor: Colors.green,
             value: isChecked,
             onChanged: (bool? value) {
+              if(value!){
+                context.read<DrinkBloc>().add(DrinkAddEvent(product: widget.product, topping: widget.topping));
+              }
               setState(() {
                 isChecked = value!;
               });

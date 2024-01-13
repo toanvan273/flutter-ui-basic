@@ -47,6 +47,10 @@ class Topping{
   int price;
 
   Topping(this.id, this.name, this.price);
+  @override
+  String toString() {
+    return 'Topping {id: $id name: $name price: $price}';
+  }
 }
 
 class Sugar{
@@ -55,6 +59,10 @@ class Sugar{
   int price;
 
   Sugar(this.id, this.level, this.price);
+  @override
+  String toString() {
+    return 'Sugar {id: $id level: $level price: $price}';
+  }
 }
 
 List<Sugar> sugarList = <Sugar>[
@@ -66,17 +74,17 @@ List<Sugar> sugarList = <Sugar>[
 ];
 
 class ProductOrder {
-  Product? product;
+  Product product;
   int? quantity;
   int? saled;
   int? like;
-  List<Topping>? toppings;
+  List<Topping>? toppings = [];
   double? sugar;
   double? ice;
   String? note;
 
   ProductOrder({
-    this.product,
+    required this.product,
     this.quantity,
     this.saled,
     this.like,
@@ -87,7 +95,7 @@ class ProductOrder {
   });
 
   ProductOrder copyWith({
-    Product? product,
+    required Product product,
     int? quantity,
     int? saled,
     int? like,
@@ -97,7 +105,7 @@ class ProductOrder {
     String? note
   }){
   return ProductOrder(
-      product: product ?? this.product,
+      product: product,
       quantity: quantity ?? this.quantity,
       saled: saled ?? this.saled,
       like: saled ?? this.saled,

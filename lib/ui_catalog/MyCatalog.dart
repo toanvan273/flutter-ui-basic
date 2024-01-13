@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ui/ui_catalog/MyCart.dart';
 import 'package:flutter_ui/ui_catalog/Product.dart';
 import 'package:flutter_ui/ui_catalog/cart_bloc.dart';
+import 'package:flutter_ui/ui_catalog/drink_bloc.dart';
 import 'package:flutter_ui/ui_catalog/new_food.dart';
 import 'package:provider/provider.dart';
 
@@ -16,7 +17,7 @@ class MyCatalog extends StatelessWidget{
           title: Text('My Catalog'),
           backgroundColor: Colors.yellow,
           actions: [
-            BlocBuilder<CartBloc, CartState>(
+            BlocBuilder<DrinkBloc, DrinkState>(
               builder: (context, state){
                 return Text('Total price: ${state.totalPrices}');
               },
@@ -121,16 +122,13 @@ class ActionButton extends State<Actions> {
   }
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CartBloc, CartState>(
+    return BlocBuilder<DrinkBloc, DrinkState>(
       builder: (context, state){
-        dynamic pExit = state.products.indexWhere((e) => e.id == widget.product.id);
+        dynamic pExit = state.listProductOrder.indexWhere((e) => e.product?.id == widget.product.id);
         if(state.getLength == 0 || pExit<0){
           return ElevatedButton(
               onPressed:  (){
-                context.read<CartBloc>().add(CartEventAdd(widget.product));
-                // setState(() {
-                //   added = !added;
-                // });
+                context.read<DrinkBloc>().add(DrinkAddEvent(product: widget.product));
                 bottomSheetBuilder(context, widget.product);
               }
               , child: const Text('Add')
@@ -139,10 +137,7 @@ class ActionButton extends State<Actions> {
         return Container(
           child: !added ? ElevatedButton(
               onPressed:  (){
-                context.read<CartBloc>().add(CartEventAdd(widget.product));
-                // setState(() {
-                //   added = !added;
-                // });
+                context.read<DrinkBloc>().add(DrinkAddEvent(product: widget.product));
                 bottomSheetBuilder(context, widget.product);
               }
               , child: const Text('Add')
