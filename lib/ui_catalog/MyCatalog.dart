@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ui/ui_catalog/MyCart.dart';
 import 'package:flutter_ui/ui_catalog/Product.dart';
-import 'package:flutter_ui/ui_catalog/cart_bloc.dart';
 import 'package:flutter_ui/ui_catalog/drink_bloc.dart';
 import 'package:flutter_ui/ui_catalog/new_food.dart';
 import 'package:provider/provider.dart';

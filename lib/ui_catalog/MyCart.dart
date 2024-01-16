@@ -10,6 +10,7 @@ class MyCart extends StatelessWidget{
   Widget build(BuildContext context) {
     return BlocBuilder<DrinkBloc, DrinkState>(
       builder: (context, state){
+        print('check... ${state.listProductOrder}');
         return Scaffold(
           appBar: AppBar(
             title: const Text('My Cart'),
