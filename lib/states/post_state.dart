@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter_ui/models/post.dart';
 
 enum PostStatus {
@@ -6,12 +7,12 @@ enum PostStatus {
   failure
 }
 
-final class PostState{
+final class PostState extends Equatable{
   final PostStatus status;
   final List<Post> posts;
   final bool hasReachedMax;
 
-  PostState({
+  const PostState({
     this.status = PostStatus.initial,
     this.posts = const <Post>[],
     this.hasReachedMax = false
@@ -33,4 +34,7 @@ final class PostState{
   String toString() {
     return '''PostState { status: $status, hasReachedMax: $hasReachedMax, posts: ${posts.length} }''';
   }
+
+  @override
+  List<Object> get props => [status, posts, hasReachedMax];
 }
