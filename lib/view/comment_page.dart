@@ -30,21 +30,26 @@ class InfiniteList extends StatefulWidget {
 }
 
 class _InfiniteList extends State<InfiniteList> {
-  late CommentBloc _commentBloc;
+  // late CommentBloc _commentBloc;
   final _scrollController = ScrollController();
-  final _scrollThreadhold = 250.0;
+  // final _scrollThreadhold = 250.0;
 
   @override
   void initState() {
     super.initState();
-    _commentBloc = BlocProvider.of(context);
+    // _commentBloc = BlocProvider.of(context);
     _scrollController.addListener(() {
-      final maxScrollExtent = _scrollController.position.maxScrollExtent;
-      final currentScroll = _scrollController.position.pixels;
-      if(maxScrollExtent-currentScroll <= _scrollThreadhold){
-        // scroll to the end of 1 page
-        _commentBloc.add(CommentFetchedEvent());
-      }
+      // final maxScrollExtent = _scrollController.position.maxScrollExtent;
+      // final currentScroll = _scrollController.position.pixels;
+
+      // final currentScroll = _scrollController.offset;
+      // if(maxScrollExtent-currentScroll <= _scrollThreadhold){
+      //   // scroll to the end of 1 page
+      //   _commentBloc.add(CommentFetchedEvent());
+      // }
+      if(_scrollController.position.pixels == _scrollController.position.maxScrollExtent){
+        context.read<CommentBloc>().add(CommentFetchedEvent());
+      };
     });
   }
   @override
@@ -59,15 +64,15 @@ class _InfiniteList extends State<InfiniteList> {
       body: SafeArea(
         child: BlocBuilder<CommentBloc, CommentState>(
           builder: (context, state){
-            if(state is CommentStateInitial){
+            if(state.status == CommentStatus.initial){
               return Center(child: CircularProgressIndicator());
             }
-            if(state is CommentStateFailure){
+            if(state.status == CommentStatus.initial){
               return Center(
                 child: Text('Cannot load comments from Server', style: TextStyle(fontSize: 22, color: Colors.redAccent),),
               );
             }
-            if(state is CommentStateSuccess){
+            if(state.status == CommentStatus.success){
               if(state.comments.isEmpty){
                 return Center(child: Text('Empty comments'));
               }

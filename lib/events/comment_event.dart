@@ -7,6 +7,9 @@ abstract class CommentEvent extends Equatable{
 
 class CommentFetchedEvent extends CommentEvent {}
 
+
+
+
 class Credentials extends Equatable {
   const Credentials({required this.username, required this.password});
 
