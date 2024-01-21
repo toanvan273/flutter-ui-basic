@@ -83,7 +83,6 @@ class DrinkState {
   DrinkState addProductToList(){
     if(productOrder != null){
       List<ProductOrder> list = [...listProductOrder, productOrder!];
-      // listProductOrder.add(productOrder!);
       return DrinkState(list, null);
     }
    return DrinkState(listProductOrder, productOrder);

@@ -41,6 +41,7 @@ dependencies:
   json_annotation: ^4.6.0
   equatable: ^2.0.5
   stream_transform: ^2.1.0
+  device_info_plus: ^9.1.1
 #  open_meteo_api:
 #    path: lib/weather_src/open_meteo_api.dart
 

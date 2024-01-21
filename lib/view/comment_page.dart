@@ -9,11 +9,6 @@ class CommentPage extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      // create: (BuildContext context){
-      //   final commentBloc = CommentBloc();
-      //   commentBloc.add(CommentFetchedEvent());
-      //   return commentBloc;
-      // },
       create: (BuildContext context) => CommentBloc()..add(CommentFetchedEvent()),
       child: MaterialApp(
         home: InfiniteList(),
@@ -30,23 +25,12 @@ class InfiniteList extends StatefulWidget {
 }
 
 class _InfiniteList extends State<InfiniteList> {
-  // late CommentBloc _commentBloc;
   final _scrollController = ScrollController();
-  // final _scrollThreadhold = 250.0;
 
   @override
   void initState() {
     super.initState();
-    // _commentBloc = BlocProvider.of(context);
     _scrollController.addListener(() {
-      // final maxScrollExtent = _scrollController.position.maxScrollExtent;
-      // final currentScroll = _scrollController.position.pixels;
-
-      // final currentScroll = _scrollController.offset;
-      // if(maxScrollExtent-currentScroll <= _scrollThreadhold){
-      //   // scroll to the end of 1 page
-      //   _commentBloc.add(CommentFetchedEvent());
-      // }
       if(_scrollController.position.pixels == _scrollController.position.maxScrollExtent){
         context.read<CommentBloc>().add(CommentFetchedEvent());
       };

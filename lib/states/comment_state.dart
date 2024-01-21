@@ -1,4 +1,3 @@
-import 'package:equatable/equatable.dart';
 import 'package:flutter_ui/models/comment.dart';
 
 enum CommentStatus {
@@ -21,7 +20,6 @@ class CommentState{
   CommentState copyWith({
     CommentStatus? status,
     List<Comment>? comments,
-
     bool? hasReachedEnd
   }){
     return CommentState(
