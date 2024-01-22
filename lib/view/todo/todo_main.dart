@@ -5,7 +5,7 @@ import 'package:flutter_ui/view/todo/add_todo.dart';
 import 'package:flutter_ui/view/todo/result_page.dart';
 import 'package:flutter_ui/view/todo/todo_page.dart';
 
-class MainTodoPage extends StatelessWidget{
+class TodoMainPage extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
