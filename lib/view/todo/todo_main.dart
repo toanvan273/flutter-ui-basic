@@ -18,7 +18,6 @@ class TodoMainPage extends StatelessWidget{
 class MainTodo extends StatefulWidget{
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
     return _MainTodoState();
   }
 }

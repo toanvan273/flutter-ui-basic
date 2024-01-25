@@ -1,13 +1,14 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter_ui/constant/todo.dart';
 import '../models/task_todo.dart';
 
-class TodoState{
+class TodoState extends Equatable{
    List<TaskTodo> allTask;
-   List<TaskTodo> filterTask;
+   List<TaskTodo>? filterTask;
 
   TodoState({
-    this.allTask = const <TaskTodo>[],
-    this.filterTask = const <TaskTodo>[],
+    required this.allTask,
+    this.filterTask,
   });
 
   TodoState copyWith({
@@ -20,10 +21,13 @@ class TodoState{
     );
   }
 
-  TodoState addTask(TaskTodo  taskTodo){
-    var list = [...allTask, taskTodo];
-    print('list: $list');
-    return TodoState(allTask: [...list]);
+  TodoState addTask({required TaskTodo taskTodo}){
+    if(taskTodo != null){
+      var list = [...allTask, taskTodo];
+      print('addTask = list: $list');
+      return TodoState(allTask: list, filterTask: filterTask);
+    }
+    return TodoState(allTask: allTask, filterTask: filterTask);
   }
 
   int get totalTask {
@@ -45,4 +49,8 @@ class TodoState{
     // TODO: implement toString
     return 'allTask: ${allTask} || filterTask: ${filterTask}';
   }
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => throw UnimplementedError();
 }
