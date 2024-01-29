@@ -4,48 +4,47 @@ import 'package:flutter_ui/ui_catalog/MyCart.dart';
 import 'package:flutter_ui/ui_catalog/Product.dart';
 import 'package:flutter_ui/ui_catalog/drink_bloc.dart';
 import 'package:flutter_ui/ui_catalog/new_food.dart';
+import 'package:flutter_ui/view/todo_v2/my_drawer.dart';
 import 'package:provider/provider.dart';
 
 class MyCatalog extends StatelessWidget{
-
+  static const id = 'my_catalog_screen';
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('My Catalog'),
-          backgroundColor: Colors.yellow,
-          actions: [
-            BlocBuilder<DrinkBloc, DrinkState>(
-              builder: (context, state){
-                return Text('Total price: ${state.totalPrices}');
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('My Catalog'),
+        backgroundColor: Colors.yellow,
+        actions: [
+          BlocBuilder<DrinkBloc, DrinkState>(
+            builder: (context, state){
+              return Text('Total price: ${state.totalPrices}');
+            },
+          ),
+          const SizedBox(
+            width: 20,
+          ),
+          Builder(builder: (context){
+            return InkWell(
+              child: Icon(Icons.shopping_cart),
+              onTap: (){
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => MyCart())
+                );
               },
-            ),
-            const SizedBox(
-              width: 20,
-            ),
-            Builder(builder: (context){
-              return InkWell(
-                child: Icon(Icons.shopping_cart),
-                onTap: (){
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => MyCart())
-                  );
-                },
-              );
-            }),
-            Padding(padding: EdgeInsets.only(right: 20))
-          ],
-        ),
-        body: _MyCatalog(),
+            );
+          }),
+          Padding(padding: EdgeInsets.only(right: 20))
+        ],
       ),
+      drawer: MyDrawer(),
+      body: _MyCatalog(),
     );
   }
 }
 
 class _MyCatalog extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(

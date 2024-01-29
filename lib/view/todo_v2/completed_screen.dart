@@ -7,7 +7,6 @@ import 'package:flutter_ui/widgets/tasks_list.dart';
 
 class CompletedTasksScreen extends StatelessWidget {
   const CompletedTasksScreen({Key? key}) : super(key: key);
-  static const id = 'completed_tasks_screen';
 
   @override
   Widget build(BuildContext context) {

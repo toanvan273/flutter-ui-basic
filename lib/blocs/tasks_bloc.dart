@@ -13,26 +13,25 @@ class TasksBloc extends HydratedBloc<TasksEvent, TasksState>{
     on<RemoveTask>(_onRemoveTask);
   }
 
-
-Future<void> _onAddTask(AddTask event, Emitter<TasksState> emit) async {
-  emit(TasksState(
-    allTasks: List.from(state.allTasks)..add(event.task),
-    removedTasks: state.removedTasks
-  ));
-}
-
-void _onUpdateTask(UpdateTask event, Emitter<TasksState> emit){
-    final task = event.task;
-    final int index = state.allTasks.indexWhere((e) => e.id == task.id);
-    List<Task> allTask = List.from(state.allTasks)..removeAt(index);
-    task.isDone == false
-      ? allTask.insert(index,task.copyWith(isDone: true))
-      : allTask.insert(index,task.copyWith(isDone: false));
+  Future<void> _onAddTask(AddTask event, Emitter<TasksState> emit) async {
     emit(TasksState(
-      allTasks: allTask,
+      allTasks: List.from(state.allTasks)..add(event.task),
       removedTasks: state.removedTasks
     ));
-}
+  }
+
+  void _onUpdateTask(UpdateTask event, Emitter<TasksState> emit){
+      final task = event.task;
+      final int index = state.allTasks.indexWhere((e) => e.id == task.id);
+      List<Task> allTask = List.from(state.allTasks)..removeAt(index);
+      task.isDone == false
+        ? allTask.insert(index,task.copyWith(isDone: true))
+        : allTask.insert(index,task.copyWith(isDone: false));
+      emit(TasksState(
+        allTasks: allTask,
+        removedTasks: state.removedTasks
+      ));
+  }
 
   void _onRemoveTask(RemoveTask event, Emitter<TasksState> emit){
     final int index = state.allTasks.indexWhere((e) => e.id == event.task.id);

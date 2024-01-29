@@ -73,7 +73,7 @@ class _TabsScreenState extends State<TabsScreen> {
               label: 'Completed Task'
           ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.list),
+              icon: Icon(Icons.favorite),
               label: 'Favorite Task'
           ),
         ],

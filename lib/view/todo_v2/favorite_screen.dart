@@ -7,7 +7,6 @@ import 'package:flutter_ui/widgets/tasks_list.dart';
 
 class FavoriteTasksScreen extends StatelessWidget {
   const FavoriteTasksScreen({Key? key}) : super(key: key);
-  static const id = 'favorite_tasks_screen';
 
   @override
   Widget build(BuildContext context) {

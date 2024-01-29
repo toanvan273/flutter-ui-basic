@@ -56,7 +56,7 @@ class MyCart extends StatelessWidget{
                               ElevatedButton(
                                   child: const Text('Delete'),
                                   onPressed: (){
-                                    context.read<CartBloc>().add(CartEventRemove(p.product.id));
+                                    context.read<DrinkBloc>().add(DrinkDeleteOrderEvent(productOrder: p));
                                   }
                               )
                             ],

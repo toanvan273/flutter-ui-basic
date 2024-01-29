@@ -6,12 +6,14 @@ import 'package:flutter_ui/view/todo/filter_menu.dart';
 import 'package:flutter_ui/blocs/todo_bloc.dart';
 import 'package:flutter_ui/states/todo_state.dart';
 import 'package:flutter_ui/view/todo/todo_detail.dart';
+import 'package:flutter_ui/view/todo_v2/my_drawer.dart';
 
 
 class TodoPage extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: MyDrawer(),
       appBar: AppBar(
         title: const Text('Flutter Todos'),
         actions: [
@@ -21,7 +23,6 @@ class TodoPage extends StatelessWidget{
       ),
       body: TodoList(),
       // bottomNavigationBar: _BottomAppBar(),
-
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 
@@ -14,6 +15,26 @@ class Product {
     required this.name,
     required this.price
   });
+
+
+   factory Product.fromJson(Map<String, dynamic> json) {
+    return Product(
+      id: int.parse(json["id"]),
+      name: json["name"],
+      color: json["color"],
+      price: double.parse(json["price"]),
+    );
+  }
+
+
+   Map<String, dynamic> toJson() {
+    return {
+      "id": this.id,
+      "name": this.name,
+      "color": this.color,
+      "price": this.price,
+    };
+  }
 
   @override
   String toString() {
@@ -50,6 +71,22 @@ class Topping{
   @override
   String toString() {
     return 'Topping {id: $id name: $name price: $price}';
+  }
+
+  factory Topping.fromJson(Map<String, dynamic> json) {
+    return Topping(
+      int.parse(json["id"]),
+      json["name"],
+      int.parse(json["price"]),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "id": this.id,
+      "name": this.name,
+      "price": this.price,
+    };
   }
 }
 
@@ -115,7 +152,36 @@ class ProductOrder {
       note: note??this.note
   );
  }
- @override
+
+
+  factory ProductOrder.fromJson(Map<String, dynamic> json) {
+    return ProductOrder(
+      product: Product.fromJson(json["product"]),
+      quantity: int.parse(json["quantity"]),
+      saled: int.parse(json["saled"]),
+      like: int.parse(json["like"]),
+      toppings: List.of(json["toppings"]).map((i) => Topping.fromJson(i)).toList(),
+      sugar: double.parse(json["sugar"]),
+      ice: double.parse(json["ice"]),
+      note: json["note"],
+    );
+  }
+
+
+  Map<String, dynamic> toJson() {
+    return {
+      "product": this.product,
+      "quantity": this.quantity,
+      "saled": this.saled,
+      "like": this.like,
+      "toppings": jsonEncode(this.toppings),
+      "sugar": this.sugar,
+      "ice": this.ice,
+      "note": this.note,
+    };
+  }
+
+  @override
   String toString() {
     // TODO: implement toString
     return 'Product: {${product.toString()}} '

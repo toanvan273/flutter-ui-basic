@@ -3,28 +3,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ui/blocs/comment_bloc.dart';
 import 'package:flutter_ui/events/comment_event.dart';
 import 'package:flutter_ui/states/comment_state.dart';
+import 'package:flutter_ui/view/todo_v2/my_drawer.dart';
 
 
-class CommentPage extends StatelessWidget{
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (BuildContext context) => CommentBloc()..add(CommentFetchedEvent()),
-      child: MaterialApp(
-        home: InfiniteList(),
-      ),
-    );
-  }
-}
+class CommentScreen extends StatefulWidget {
+  static const id = 'comments_screen';
 
-class InfiniteList extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     return _InfiniteList();
   }
 }
 
-class _InfiniteList extends State<InfiniteList> {
+class _InfiniteList extends State<CommentScreen> {
   final _scrollController = ScrollController();
 
   @override
@@ -45,20 +36,24 @@ class _InfiniteList extends State<InfiniteList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Comment Page'),
+      ),
+      drawer: MyDrawer(),
       body: SafeArea(
         child: BlocBuilder<CommentBloc, CommentState>(
           builder: (context, state){
             if(state.status == CommentStatus.initial){
-              return Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator());
             }
             if(state.status == CommentStatus.initial){
-              return Center(
+              return const Center(
                 child: Text('Cannot load comments from Server', style: TextStyle(fontSize: 22, color: Colors.redAccent),),
               );
             }
             if(state.status == CommentStatus.success){
               if(state.comments.isEmpty){
-                return Center(child: Text('Empty comments'));
+                return const Center(child: Text('Empty comments'));
               }
               return ListView.builder(
                 itemBuilder: (BuildContext buildContext,int index){
@@ -80,11 +75,11 @@ class _InfiniteList extends State<InfiniteList> {
                       leading: Text('${state.comments[index].id}'),
                       title: Text(
                           'email: ${state.comments[index].email}',
-                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)
+                          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)
                       ),
                       isThreeLine: true,
                       subtitle: Text(
-                          '${state.comments[index].body}'
+                          state.comments[index].body
                       ),
                     );
                   }
@@ -93,7 +88,7 @@ class _InfiniteList extends State<InfiniteList> {
                 controller:_scrollController,
               );
             }
-            return Center(child: Text('Empty comments'));
+            return const Center(child: Text('Empty comments'));
           },
         ),
       ),

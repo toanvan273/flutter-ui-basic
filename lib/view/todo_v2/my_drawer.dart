@@ -6,8 +6,11 @@ import 'package:flutter_ui/blocs/tasks_bloc.dart';
 import 'package:flutter_ui/events/switch_event.dart';
 import 'package:flutter_ui/states/switch_state.dart';
 import 'package:flutter_ui/states/tasks_state.dart';
+import 'package:flutter_ui/ui_catalog/MyCatalog.dart';
+import 'package:flutter_ui/view/comment_screen.dart';
+import 'package:flutter_ui/view/posts_screen.dart';
+import 'package:flutter_ui/view/todo/todo_main.dart';
 import 'package:flutter_ui/view/todo_v2/recycle_bin.dart';
-import 'package:flutter_ui/view/todo_v2/pending_screen.dart';
 import 'package:flutter_ui/view/todo_v2/tabs_screen.dart';
 
 class MyDrawer extends StatelessWidget{
@@ -49,6 +52,7 @@ class MyDrawer extends StatelessWidget{
               );
             },
           ),
+          const Divider(),
           BlocBuilder<SwitchBloc, SwitchState>(
             builder: (context,state){
               return Switch(
@@ -60,7 +64,39 @@ class MyDrawer extends StatelessWidget{
                   }
               );
             },
-          )
+          ),
+          const Divider(),
+          GestureDetector(
+            onTap: () => Navigator.of(context).pushReplacementNamed(PostsScreen.id),
+            child: const ListTile(
+              leading: Icon(Icons.document_scanner_sharp),
+              title: Text('Post List'),
+            ),
+          ),
+          const Divider(),
+          GestureDetector(
+            onTap: () => Navigator.of(context).pushReplacementNamed(CommentScreen.id),
+            child: const ListTile(
+              leading: Icon(Icons.post_add_sharp),
+              title: Text('Comment List'),
+            ),
+          ),
+          const Divider(),
+          GestureDetector(
+            onTap: () => Navigator.of(context).pushReplacementNamed(MainTodoScreen.id),
+            child: const ListTile(
+              leading: Icon(Icons.verified_user_outlined),
+              title: Text('Todo v1'),
+            ),
+          ),
+          const Divider(),
+          GestureDetector(
+            onTap: () => Navigator.of(context).pushReplacementNamed(MyCatalog.id),
+            child: const ListTile(
+              leading: Icon(Icons.shopping_cart),
+              title: Text('My Catalog'),
+            ),
+          ),
         ],
       ),
     )

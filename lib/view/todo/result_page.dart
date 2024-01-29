@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ui/view/todo_v2/my_drawer.dart';
 
 class ResultPage extends StatelessWidget{
   @override
@@ -7,12 +8,13 @@ class ResultPage extends StatelessWidget{
       appBar: AppBar(
         title: const Text('Result Todos'),
         actions: [
-          Icon(Icons.more_horiz)
+          const Icon(Icons.more_horiz)
         ],
       ),
+      drawer: const MyDrawer(),
       body: Container(
-        padding: EdgeInsets.symmetric(horizontal: 10),
-        child: Column(
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        child: const Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
