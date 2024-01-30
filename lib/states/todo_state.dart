@@ -24,7 +24,6 @@ class TodoState extends Equatable{
   TodoState addTask({required TaskTodo taskTodo}){
     if(taskTodo != null){
       var list = [...allTask, taskTodo];
-      print('addTask = list: $list');
       return TodoState(allTask: list, filterTask: filterTask);
     }
     return TodoState(allTask: allTask, filterTask: filterTask);

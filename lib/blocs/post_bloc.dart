@@ -30,7 +30,6 @@ class PostBloc extends Bloc<PostEvent, PostState>{
       }
       // print('length--post: ${state.posts.length}');
       int totalItem = state.posts.length;
-      print('totalItem $totalItem');
       final posts = await _fetchPosts(totalItem);
       return posts.isEmpty
         ? emit(state.copyWith(hasReachedMax: true))

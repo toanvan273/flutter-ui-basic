@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
@@ -17,11 +18,12 @@ class Product extends Equatable {
 
 
    factory Product.fromJson(Map<String, dynamic> json) {
+     print('Product day: $json');
     return Product(
-      id: int.parse(json["id"]),
-      name: json["name"],
-      color: json["color"],
-      price: double.parse(json["price"]),
+      id: json["id"] as int,
+      name: json["name"] as String,
+      color: Color(json["color"]),
+      price: json["price"] as double,
     );
   }
 
@@ -73,10 +75,11 @@ class Topping extends Equatable{
 
 
   factory Topping.fromJson(Map<String, dynamic> json) {
+    print('Topping--json: $json');
     return Topping(
-      int.parse(json["id"]),
-      json["name"],
-      int.parse(json["price"]),
+      json["id"] as int,
+      json["name"] as String,
+      json["price"] as int,
     );
   }
 
@@ -140,28 +143,43 @@ class ProductOrder {
 
 
 
-  factory ProductOrder.fromJson(Map<String, dynamic> json) {
+  factory ProductOrder.fromJson(Map<String, dynamic> jsonMap) {
+    print('jsonMap: $jsonMap');
+    dynamic iProduct = jsonMap['product'];    try{
+      final a =  ProductOrder(
+          product: Product.fromJson(iProduct),
+          quantity: jsonMap["quantity"] as int?,
+          saled: jsonMap["saled"] as int?,
+          like: jsonMap["like"] as int?,
+          toppings: List<Topping>.from(jsonMap["toppings"]?.map((i) => Topping.fromJson(i))),
+          sugar:jsonMap["sugar"] as double?,
+          ice: jsonMap["ice"] as double?,
+          note: jsonMap["note"] as String?,
+);
+          }catch(err){
+      print(err);
+    }
+
     return ProductOrder(
-      product: Product.fromJson(json["product"]),
-      quantity: int.parse(json["quantity"]),
-      saled: int.parse(json["saled"]),
-      like: int.parse(json["like"]),
-      toppings: List<Topping>.from(json["toppings"]).map((i) =>
-          Topping.fromJson(i as Map<String, dynamic>)).toList(),
-      sugar: double.parse(json["sugar"]),
-      ice: double.parse(json["ice"]),
-      note: json["note"],
+      product: Product.fromJson(iProduct),
+        quantity: jsonMap["quantity"] as int?,
+        saled: jsonMap["saled"] as int?,
+        like: jsonMap["like"] as int?,
+        toppings: List<Topping>.from(jsonMap["toppings"]?.map((i) => Topping.fromJson(i))),
+        sugar:jsonMap["sugar"] as double?,
+        ice: jsonMap["ice"] as double?,
+        note: jsonMap["note"] as String?
     );
   }
 
 
   Map<String, dynamic> toJson() {
     return {
-      "product": product,
+      "product": product.toJson(),
       "quantity": quantity,
       "saled": saled,
       "like": like,
-      "toppings": toppings?.map((e) => e.toJson()).toList(),
+      "toppings": toppings != null ? toppings?.map((e) => e.toJson()).toList() : '',
       "sugar": sugar,
       "ice": ice,
       "note": note,

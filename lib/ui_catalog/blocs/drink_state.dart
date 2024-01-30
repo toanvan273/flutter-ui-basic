@@ -61,8 +61,8 @@ class DrinkState extends Equatable{
 
   factory DrinkState.fromJson(Map<String, dynamic> json) {
     return DrinkState(
-      List<ProductOrder>.from(json["listProductOrder"]).map((i) =>
-          ProductOrder.fromJson(i as Map<String, dynamic>)).toList(),
+      List<ProductOrder>.from(json["listProductOrder"].map((i) =>
+          ProductOrder.fromJson(i))).toList(),
       ProductOrder.fromJson(json["productOrder"]),
     );
   }
