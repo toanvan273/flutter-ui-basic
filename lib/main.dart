@@ -11,7 +11,7 @@ import 'package:flutter_ui/events/post_event.dart';
 import 'package:flutter_ui/services/app_router.dart';
 import 'package:flutter_ui/services/app_theme.dart';
 import 'package:flutter_ui/states/switch_state.dart';
-import 'package:flutter_ui/ui_catalog/drink_bloc.dart';
+import 'package:flutter_ui/ui_catalog/blocs/drink_bloc.dart';
 import 'package:flutter_ui/view/comment_screen.dart';
 import 'package:flutter_ui/view/todo_v2/tabs_screen.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';

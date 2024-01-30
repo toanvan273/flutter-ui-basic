@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_ui/ui_catalog/cart_bloc.dart';
-import 'package:flutter_ui/ui_catalog/drink_bloc.dart';
+import 'package:flutter_ui/ui_catalog/blocs/drink_event.dart';
+import 'package:flutter_ui/ui_catalog/blocs/drink_state.dart';
+import 'package:flutter_ui/ui_catalog/blocs/drink_bloc.dart';
 
 
 class MyCart extends StatelessWidget{
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<DrinkBloc, DrinkState>(
       builder: (context, state){
-        print('check... ${state.listProductOrder}');
         return Scaffold(
           appBar: AppBar(
             title: const Text('My Cart'),
@@ -25,7 +24,7 @@ class MyCart extends StatelessWidget{
                       action: SnackBarAction(
                         label: 'Delete All',
                         onPressed: (){
-                          context.read<CartBloc>().add(CartEventRemoveAll());
+                          // context.read<CartBloc>().add(CartEventRemoveAll());
                           // Navigator.pop(context);
                         },
                       ),

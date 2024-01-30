@@ -2,7 +2,6 @@
 import 'package:flutter_ui/events/tasks_event.dart';
 import 'package:flutter_ui/states/tasks_state.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
-
 import '../models/task.dart';
 
 class TasksBloc extends HydratedBloc<TasksEvent, TasksState>{
@@ -47,8 +46,6 @@ class TasksBloc extends HydratedBloc<TasksEvent, TasksState>{
       List<Task> removedTasks = List.from(state.removedTasks)..removeAt(index);
       emit(TasksState(allTasks: state.allTasks, removedTasks: removedTasks));
   }
-
-
 
   @override
   TasksState? fromJson(Map<String, dynamic> json) {

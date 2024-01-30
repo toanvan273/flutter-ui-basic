@@ -53,19 +53,6 @@ class MyDrawer extends StatelessWidget{
             },
           ),
           const Divider(),
-          BlocBuilder<SwitchBloc, SwitchState>(
-            builder: (context,state){
-              return Switch(
-                  value: state.switchValue,
-                  onChanged: (newValue){
-                    newValue!
-                        ? context.read<SwitchBloc>().add(SwitchOnEvent())
-                        : context.read<SwitchBloc>().add(SwitchOffEvent());
-                  }
-              );
-            },
-          ),
-          const Divider(),
           GestureDetector(
             onTap: () => Navigator.of(context).pushReplacementNamed(PostsScreen.id),
             child: const ListTile(
@@ -96,6 +83,19 @@ class MyDrawer extends StatelessWidget{
               leading: Icon(Icons.shopping_cart),
               title: Text('My Catalog'),
             ),
+          ),
+          const Divider(),
+          BlocBuilder<SwitchBloc, SwitchState>(
+            builder: (context,state){
+              return Switch(
+                  value: state.switchValue,
+                  onChanged: (newValue){
+                    newValue!
+                        ? context.read<SwitchBloc>().add(SwitchOnEvent())
+                        : context.read<SwitchBloc>().add(SwitchOffEvent());
+                  }
+              );
+            },
           ),
         ],
       ),

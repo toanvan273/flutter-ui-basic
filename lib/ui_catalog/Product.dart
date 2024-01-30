@@ -1,14 +1,13 @@
 import 'dart:convert';
-import 'dart:ui';
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
-class Product {
+class Product extends Equatable {
    int id;
    String name;
    Color color;
    double price;
 
-  // Product(this.id, this.name, this.color, this.price);
   Product({
     required this.id,
     required this.color,
@@ -29,10 +28,10 @@ class Product {
 
    Map<String, dynamic> toJson() {
     return {
-      "id": this.id,
-      "name": this.name,
-      "color": this.color,
-      "price": this.price,
+      "id": id,
+      "name": name,
+      "color": color.toString(),
+      "price": price,
     };
   }
 
@@ -40,6 +39,9 @@ class Product {
   String toString() {
     return 'id: $id Name: $name Price: $price';
   }
+
+  @override
+  List<Object?> get props => [id, name, price, color];
 }
 
 List<Product> products = <Product>[
@@ -62,16 +64,13 @@ List<Product> products = <Product>[
 
 ];
 
-class Topping{
+class Topping extends Equatable{
   int id;
   String name;
   int price;
 
   Topping(this.id, this.name, this.price);
-  @override
-  String toString() {
-    return 'Topping {id: $id name: $name price: $price}';
-  }
+
 
   factory Topping.fromJson(Map<String, dynamic> json) {
     return Topping(
@@ -83,11 +82,19 @@ class Topping{
 
   Map<String, dynamic> toJson() {
     return {
-      "id": this.id,
-      "name": this.name,
-      "price": this.price,
+      "id": id,
+      "name": name,
+      "price": price,
     };
   }
+
+  @override
+  String toString() {
+    return 'Topping {id: $id name: $name price: $price}';
+  }
+
+  @override
+  List<Object?> get props => [id, name, price];
 }
 
 class Sugar{
@@ -131,27 +138,6 @@ class ProductOrder {
     this.note
   });
 
-  ProductOrder copyWith({
-    required Product product,
-    int? quantity,
-    int? saled,
-    int? like,
-    List<Topping>? toppings,
-    double? sugar,
-    double? ice,
-    String? note
-  }){
-  return ProductOrder(
-      product: product,
-      quantity: quantity ?? this.quantity,
-      saled: saled ?? this.saled,
-      like: saled ?? this.saled,
-      toppings: toppings??this.toppings,
-      sugar: sugar?? this.sugar,
-      ice: ice??this.ice,
-      note: note??this.note
-  );
- }
 
 
   factory ProductOrder.fromJson(Map<String, dynamic> json) {
@@ -160,7 +146,8 @@ class ProductOrder {
       quantity: int.parse(json["quantity"]),
       saled: int.parse(json["saled"]),
       like: int.parse(json["like"]),
-      toppings: List.of(json["toppings"]).map((i) => Topping.fromJson(i)).toList(),
+      toppings: List<Topping>.from(json["toppings"]).map((i) =>
+          Topping.fromJson(i as Map<String, dynamic>)).toList(),
       sugar: double.parse(json["sugar"]),
       ice: double.parse(json["ice"]),
       note: json["note"],
@@ -170,20 +157,19 @@ class ProductOrder {
 
   Map<String, dynamic> toJson() {
     return {
-      "product": this.product,
-      "quantity": this.quantity,
-      "saled": this.saled,
-      "like": this.like,
-      "toppings": jsonEncode(this.toppings),
-      "sugar": this.sugar,
-      "ice": this.ice,
-      "note": this.note,
+      "product": product,
+      "quantity": quantity,
+      "saled": saled,
+      "like": like,
+      "toppings": toppings?.map((e) => e.toJson()).toList(),
+      "sugar": sugar,
+      "ice": ice,
+      "note": note,
     };
   }
 
   @override
   String toString() {
-    // TODO: implement toString
     return 'Product: {${product.toString()}} '
         ' quantity: $quantity'
         ' saled: $saled'

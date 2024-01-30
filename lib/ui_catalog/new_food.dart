@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ui/ui_catalog/Product.dart';
-import 'package:flutter_ui/ui_catalog/drink_bloc.dart';
+import 'package:flutter_ui/ui_catalog/blocs/drink_bloc.dart';
+import 'package:flutter_ui/ui_catalog/blocs/drink_event.dart';
+import 'package:flutter_ui/ui_catalog/blocs/drink_state.dart';
 
 class AddNewFood extends StatefulWidget{
   Product product;
-  AddNewFood(this.product);
+  AddNewFood(this.product, {super.key});
 
   @override
   State<StatefulWidget> createState() {
