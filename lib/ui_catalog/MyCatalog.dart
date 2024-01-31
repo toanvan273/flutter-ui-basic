@@ -75,7 +75,7 @@ class ProductItem extends StatelessWidget {
             Container(
               width: 60,
               height: 60,
-              color: item.color,
+              color: HexColor.fromHex(item.color),
               child: Center(
                 child: Text('${item.price.toInt()}' + "\$"),
               ),
