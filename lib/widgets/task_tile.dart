@@ -9,12 +9,12 @@ class TaskTile extends StatelessWidget {
   const TaskTile({
     super.key,
     required this.task,
+    required this.idScreen
   });
 
   final Task task;
-
+  final String idScreen;
   void _removeOrDeleteTask(BuildContext context, Task task){
-    print('??? ${task.toString()}');
     task.isDeleted!
         ? context.read<TasksBloc>().add(DeleteTask(task: task))
         : context.read<TasksBloc>().add(RemoveTask(task: task));

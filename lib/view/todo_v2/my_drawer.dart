@@ -34,7 +34,7 @@ class MyDrawer extends StatelessWidget{
                 child: ListTile(
                   leading: Icon(Icons.folder_special),
                   title: Text('My Tasks'),
-                  trailing: Text('${state.allTasks.length}'),
+                  trailing: Text('${state.pendingTasks.length}'),
                 ),
               );
             },

@@ -7,12 +7,12 @@ import 'package:flutter_ui/widgets/tasks_list.dart';
 
 class FavoriteTasksScreen extends StatelessWidget {
   const FavoriteTasksScreen({Key? key}) : super(key: key);
-
+  static const id = 'favorite_tasks_screen';
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TasksBloc, TasksState>(
       builder: (context,state){
-        List<Task> tasksList = state.allTasks;
+        List<Task> tasksList = state.favoriteTasks;
         return Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children:  [
@@ -23,7 +23,7 @@ class FavoriteTasksScreen extends StatelessWidget {
                 ),
               ),
             ),
-            TasksList(tasksList: tasksList),
+            TasksList(tasksList: tasksList, idScreen: id,),
           ],
         );
       },

@@ -7,12 +7,12 @@ import 'package:flutter_ui/widgets/tasks_list.dart';
 
 class CompletedTasksScreen extends StatelessWidget {
   const CompletedTasksScreen({Key? key}) : super(key: key);
-
+  static const id = 'completed_tasks_screen';
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TasksBloc, TasksState>(
       builder: (context,state){
-        List<Task> tasksList = state.allTasks;
+        List<Task> tasksList = state.completedTasks;
         return Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children:  [
@@ -23,7 +23,7 @@ class CompletedTasksScreen extends StatelessWidget {
                 ),
               ),
             ),
-            TasksList(tasksList: tasksList),
+            TasksList(tasksList: tasksList, idScreen: id,),
           ],
         );
       },

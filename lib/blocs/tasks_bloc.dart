@@ -12,31 +12,40 @@ class TasksBloc extends HydratedBloc<TasksEvent, TasksState>{
     on<RemoveTask>(_onRemoveTask);
   }
 
-  Future<void> _onAddTask(AddTask event, Emitter<TasksState> emit) async {
+  void _onAddTask(AddTask event, Emitter<TasksState> emit) async {
     emit(TasksState(
-      allTasks: List.from(state.allTasks)..add(event.task),
-      removedTasks: state.removedTasks
+      pendingTasks: List.from(state.pendingTasks)..add(event.task),
+      removedTasks: state.removedTasks,
+      completedTasks: state.completedTasks,
+      favoriteTasks: state.favoriteTasks
     ));
   }
 
   void _onUpdateTask(UpdateTask event, Emitter<TasksState> emit){
       final task = event.task;
-      final int index = state.allTasks.indexWhere((e) => e.id == task.id);
-      List<Task> allTask = List.from(state.allTasks)..removeAt(index);
-      task.isDone == false
-        ? allTask.insert(index,task.copyWith(isDone: true))
-        : allTask.insert(index,task.copyWith(isDone: false));
+      List<Task> pendingTasks = List.from(state.pendingTasks);
+      List<Task> completedTasks = List.from(state.completedTasks);
+      if(task.isDone == false){
+        final int index = state.pendingTasks.indexWhere((e) => e.id == task.id);
+        completedTasks.add(task.copyWith(isDone: true));
+        pendingTasks.removeAt(index);
+      }else{
+        final int index = state.completedTasks.indexWhere((e) => e.id == task.id);
+        completedTasks.removeAt(index);
+        pendingTasks.add(task.copyWith(isDone: false));
+      }
       emit(TasksState(
-        allTasks: allTask,
-        removedTasks: state.removedTasks
+          pendingTasks: pendingTasks,
+          completedTasks: completedTasks,
+          removedTasks: state.removedTasks,
+          favoriteTasks: state.favoriteTasks
       ));
   }
 
   void _onRemoveTask(RemoveTask event, Emitter<TasksState> emit){
-    final int index = state.allTasks.indexWhere((e) => e.id == event.task.id);
-    List<Task> allTask = List.from(state.allTasks)..removeAt(index);
+    // final int index = state.allTasks.indexWhere((e) => e.id == event.task.id);
+    // List<Task> allTask = List.from(state.allTasks)..removeAt(index);
     emit(TasksState(
-        allTasks: allTask,
         removedTasks: List.from(state.removedTasks)..add(event.task.copyWith(isDeleted: true))
     ));
   }
@@ -44,7 +53,7 @@ class TasksBloc extends HydratedBloc<TasksEvent, TasksState>{
   void _onDeleteTask(DeleteTask event, Emitter<TasksState> emit){ //at Bin
     final int index = state.removedTasks.indexWhere((e) => e.id == event.task.id);
       List<Task> removedTasks = List.from(state.removedTasks)..removeAt(index);
-      emit(TasksState(allTasks: state.allTasks, removedTasks: removedTasks));
+      emit(TasksState(removedTasks: removedTasks));
   }
 
   @override

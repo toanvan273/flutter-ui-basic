@@ -33,7 +33,7 @@ class RecycleBin extends StatelessWidget{
                   ),
                 ),
               ),
-              TasksList(tasksList: state.removedTasks),
+              TasksList(tasksList: state.removedTasks, idScreen: id,),
             ],
           ),
         );
