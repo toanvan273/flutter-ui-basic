@@ -15,6 +15,10 @@ class TasksState extends Equatable{
     this.removedTasks = const <Task>[]
   });
 
+
+  int get totalTasks {
+    return pendingTasks.length + completedTasks.length + favoriteTasks.length;
+  }
   @override
   List<Object?> get props => [removedTasks, pendingTasks, completedTasks,favoriteTasks];
 

@@ -30,7 +30,8 @@ class DeleteTask extends TasksEvent{
 
 class RemoveTask extends TasksEvent{
   final Task task;
-  const RemoveTask({required this.task});
+  final String idScreen;
+  const RemoveTask({required this.task, required this.idScreen});
   @override
   List<Object?> get props => [task];
 }
