@@ -9,11 +9,12 @@ import 'package:flutter_ui/services/guid_gen.dart';
 class AddTaskScreen extends StatelessWidget{
   AddTaskScreen({Key? key,}):super(key: key);
   TextEditingController titleController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10),
       child: Column(children: [
         const Text('Add Task', style: TextStyle(fontSize: 24),),
         const SizedBox(height: 10,),
@@ -21,7 +22,18 @@ class AddTaskScreen extends StatelessWidget{
           autofocus: true,
           controller: titleController,
           decoration: const InputDecoration(
-              label: Text('label'),
+              label: Text('Title'),
+              border: OutlineInputBorder()
+          ),
+        ),
+        const SizedBox(height: 10,),
+        TextField(
+          autofocus: true,
+          controller: descriptionController,
+          minLines: 3,
+          maxLines: 5,
+          decoration: const InputDecoration(
+              label: Text('Description'),
               border: OutlineInputBorder()
           ),
         ),
@@ -33,11 +45,12 @@ class AddTaskScreen extends StatelessWidget{
                 onPressed: ()=> Navigator.pop(context),
                 child: const Text('cancel')
             ),
-            SizedBox(width: 20,),
+            const SizedBox(width: 20,),
             ElevatedButton(
                 onPressed: (){
                   var task = Task(
                       title: titleController.text,
+                    description: descriptionController.text,
                     id: GUIDGen.generate()
                   );
                   context.read<TasksBloc>().add(AddTask(task: task));

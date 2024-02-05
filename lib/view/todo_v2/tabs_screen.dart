@@ -26,6 +26,7 @@ class _TabsScreenState extends State<TabsScreen> {
   void _addTask(BuildContext context){
     showModalBottomSheet(
         context: context,
+        isScrollControlled: true,
         builder: (context) => SingleChildScrollView(
           child: Container(
             padding: EdgeInsets.only(
@@ -51,11 +52,11 @@ class _TabsScreenState extends State<TabsScreen> {
       ),
       drawer: MyDrawer(),
       body: _pageDetails[_selectedPageIndex]['pageName'],
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: _selectedPageIndex == 0 ? FloatingActionButton(
         onPressed: ()=> _addTask(context),
         tooltip: 'Add Task',
         child: const Icon(Icons.add),
-      ),
+      ): null,
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedPageIndex,
         onTap: (index){
