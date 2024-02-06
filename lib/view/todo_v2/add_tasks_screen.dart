@@ -50,8 +50,9 @@ class AddTaskScreen extends StatelessWidget{
                 onPressed: (){
                   var task = Task(
                       title: titleController.text,
-                    description: descriptionController.text,
-                    id: GUIDGen.generate()
+                      description: descriptionController.text,
+                      id: GUIDGen.generate(),
+                      date: DateTime.now().toString(),
                   );
                   context.read<TasksBloc>().add(AddTask(task: task));
                   Navigator.pop(context);

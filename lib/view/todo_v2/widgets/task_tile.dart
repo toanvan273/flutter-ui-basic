@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ui/blocs/tasks_bloc.dart';
@@ -25,15 +24,15 @@ class TaskTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(left: 10),
+      padding: const EdgeInsets.only(left: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Expanded(
             child: Row(
               children: [
-                Icon(Icons.star_outline),
-                SizedBox(width: 10,),
+                const Icon(Icons.star_outline),
+                const SizedBox(width: 10,),
                 Expanded(child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,7 +45,7 @@ class TaskTile extends StatelessWidget {
                             decoration: task.isDone! ? TextDecoration.lineThrough: null
                         )
                     ),
-                    Text(DateFormat('dd-MM-yyyy').format(DateTime.now())),
+                    Text(DateFormat('dd-MM-yyyy hh:mm:ss').format(DateTime.parse(task.date))),
                   ],
                 )),
               ],
