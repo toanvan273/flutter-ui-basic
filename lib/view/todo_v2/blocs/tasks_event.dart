@@ -38,8 +38,14 @@ class RemoveTask extends TasksEvent{
 
 class MarkFavoriteOrUnfavoriteTask extends TasksEvent{
   final Task task;
-  final String idScreen;
-  const MarkFavoriteOrUnfavoriteTask({required this.task, required this.idScreen});
+  const MarkFavoriteOrUnfavoriteTask({required this.task});
+  @override
+  List<Object?> get props => [task];
+}
+
+class EditTask extends TasksEvent{
+  final Task task;
+  const EditTask({required this.task});
   @override
   List<Object?> get props => [task];
 }

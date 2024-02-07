@@ -2,10 +2,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ui/blocs/switch_bloc.dart';
-import 'package:flutter_ui/blocs/tasks_bloc.dart';
+import 'package:flutter_ui/view/todo_v2/blocs/tasks_bloc.dart';
 import 'package:flutter_ui/events/switch_event.dart';
 import 'package:flutter_ui/states/switch_state.dart';
-import 'package:flutter_ui/states/tasks_state.dart';
+import 'package:flutter_ui/view/todo_v2/blocs/tasks_state.dart';
 import 'package:flutter_ui/ui_catalog/MyCatalog.dart';
 import 'package:flutter_ui/view/comment_screen.dart';
 import 'package:flutter_ui/view/posts_screen.dart';

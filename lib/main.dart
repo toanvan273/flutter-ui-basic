@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ui/blocs/comment_bloc.dart';
 import 'package:flutter_ui/blocs/post_bloc.dart';
 import 'package:flutter_ui/blocs/switch_bloc.dart';
-import 'package:flutter_ui/blocs/tasks_bloc.dart';
+import 'package:flutter_ui/view/todo_v2/blocs/tasks_bloc.dart';
 import 'package:flutter_ui/blocs/todo_bloc.dart';
 import 'package:flutter_ui/events/comment_event.dart';
 import 'package:flutter_ui/events/post_event.dart';

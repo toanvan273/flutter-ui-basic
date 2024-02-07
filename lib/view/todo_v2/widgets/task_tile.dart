@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_ui/blocs/tasks_bloc.dart';
-import 'package:flutter_ui/events/tasks_event.dart';
+import 'package:flutter_ui/view/todo_v2/blocs/tasks_bloc.dart';
+import 'package:flutter_ui/view/todo_v2/blocs/tasks_event.dart';
 import 'package:flutter_ui/models/task.dart';
 import 'package:flutter_ui/view/todo_v2/widgets/popup_menu.dart';
 import 'package:intl/intl.dart';
@@ -21,6 +21,10 @@ class TaskTile extends StatelessWidget {
         : context.read<TasksBloc>().add(RemoveTask(task: task, idScreen: idScreen));
   }
 
+  void _likeOrDislikeTask(BuildContext context, Task task){
+    context.read<TasksBloc>().add(MarkFavoriteOrUnfavoriteTask(task: task));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -31,7 +35,7 @@ class TaskTile extends StatelessWidget {
           Expanded(
             child: Row(
               children: [
-                const Icon(Icons.star_outline),
+                task.isFavorite! ? Icon(Icons.star_outlined) : Icon(Icons.star_outline),
                 const SizedBox(width: 10,),
                 Expanded(child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -63,10 +67,10 @@ class TaskTile extends StatelessWidget {
                 cancelOrDeleteCallback: () => 
                 _removeOrDeleteTask(context, task),
                 task: task,
+                likeOrDislike: () => _likeOrDislikeTask(context, task),
               )
             ]
           ),
-
         ],
       ),
     );

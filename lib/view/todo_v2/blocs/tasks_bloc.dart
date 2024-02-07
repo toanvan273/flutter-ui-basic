@@ -1,11 +1,13 @@
 
-import 'package:flutter_ui/events/tasks_event.dart';
-import 'package:flutter_ui/states/tasks_state.dart';
+import 'dart:ui';
+
+import 'package:flutter_ui/view/todo_v2/blocs/tasks_event.dart';
+import 'package:flutter_ui/view/todo_v2/blocs/tasks_state.dart';
 import 'package:flutter_ui/view/todo_v2/completed_screen.dart';
 import 'package:flutter_ui/view/todo_v2/favorite_screen.dart';
 import 'package:flutter_ui/view/todo_v2/pending_screen.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
-import '../models/task.dart';
+import '../../../models/task.dart';
 
 class TasksBloc extends HydratedBloc<TasksEvent, TasksState>{
   TasksBloc():super(const TasksState()){
@@ -13,6 +15,50 @@ class TasksBloc extends HydratedBloc<TasksEvent, TasksState>{
     on<UpdateTask>(_onUpdateTask);
     on<DeleteTask>(_onDeleteTask);
     on<RemoveTask>(_onRemoveTask);
+    on<MarkFavoriteOrUnfavoriteTask>(_onMarkFavoriteOrUnfavoriteTask);
+    on<EditTask>(_onEditTask);
+  }
+
+  void _onEditTask(EditTask event, Emitter<TasksState> emit){
+    List<Task> pendingTasks = state.pendingTasks;
+    List<Task> completedTasks = state.completedTasks;
+    List<Task> favoriteTasks = state.favoriteTasks;
+    if(event.task.isDone == false){
+
+    }
+  }
+
+  void _onMarkFavoriteOrUnfavoriteTask(MarkFavoriteOrUnfavoriteTask event, Emitter<TasksState> emit){
+    List<Task> pendingTasks = state.pendingTasks;
+    List<Task> completedTasks = state.completedTasks;
+    List<Task> favoriteTasks = state.favoriteTasks;
+    if(event.task.isDone == false){
+      final int index = pendingTasks.indexWhere((e) => e.id == event.task.id);
+      if(event.task.isFavorite == false){
+        pendingTasks = List.from(pendingTasks)..removeAt(index)..insert(index, event.task.copyWith(isFavorite:true));
+        favoriteTasks.insert(0, event.task.copyWith(isFavorite: true));
+      }else{
+        pendingTasks = List.from(pendingTasks)..removeAt(index)..insert(index, event.task.copyWith(isFavorite:false));
+        favoriteTasks.remove(event.task);
+      }
+    }else{
+      final int index = completedTasks.indexWhere((e) => e.id == event.task.id);
+      if(event.task.isFavorite == false){
+        completedTasks = List.of(completedTasks)..removeAt(index)
+          ..insert(index, event.task.copyWith(isFavorite: true));
+        favoriteTasks.insert(0, event.task.copyWith(isFavorite: true));
+      }else{
+        completedTasks = List.of(completedTasks)..removeAt(index)
+          ..insert(index, event.task.copyWith(isFavorite: false));
+        favoriteTasks.remove(event.task);
+      }
+    }
+    emit(TasksState(
+      pendingTasks: pendingTasks,
+      completedTasks: completedTasks,
+      favoriteTasks: favoriteTasks,
+      removedTasks: state.removedTasks
+    ));
   }
 
   void _onAddTask(AddTask event, Emitter<TasksState> emit) async {
@@ -46,7 +92,6 @@ class TasksBloc extends HydratedBloc<TasksEvent, TasksState>{
   }
 
   void _onRemoveTask(RemoveTask event, Emitter<TasksState> emit){
-    // final int index = state.allTasks.indexWhere((e) => e.id == event.task.id);
     List<Task> pendingTasks = List<Task>.from(state.pendingTasks);
     List<Task> completedTasks = List<Task>.from(state.completedTasks);
     List<Task> favoriteTasks = List<Task>.from(state.favoriteTasks);
