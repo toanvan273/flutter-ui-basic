@@ -8,12 +8,14 @@ import 'package:flutter_ui/models/task.dart';
 class PopupMenu extends StatelessWidget {
   final VoidCallback cancelOrDeleteCallback;
   final VoidCallback likeOrDislike;
+  final VoidCallback editTask;
   final Task task;
   const PopupMenu({
     super.key,
     required this.task,
     required this.cancelOrDeleteCallback,
     required this.likeOrDislike,
+    required this.editTask
   });
 
   @override
@@ -26,7 +28,7 @@ class PopupMenu extends StatelessWidget {
                 icon: const Icon(Icons.edit),
                 label: const Text('Edit')
             ),
-            onTap: (){},
+            onTap: editTask,
           ),
           PopupMenuItem(
             child: TextButton.icon(

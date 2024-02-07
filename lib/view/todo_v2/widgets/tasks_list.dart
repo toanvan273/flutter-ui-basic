@@ -20,7 +20,7 @@ class TasksList extends StatelessWidget{
       child: SingleChildScrollView(
         child: ExpansionPanelList.radio(
           children: tasksList.mapIndexed((index, task){
-           return ExpansionPanelRadio(
+             return ExpansionPanelRadio(
                value: task.id+index.toString(),
                headerBuilder: (context, isOpen) => TaskTile(task: task, idScreen: idScreen),
                body: ListTile(
@@ -33,7 +33,7 @@ class TasksList extends StatelessWidget{
                    ),
                    TextSpan(text: task.title),
                    const TextSpan(
-                       text: 'n\n\ Description\n',
+                       text: '\n\ Description\n',
                        style: TextStyle(
                            fontWeight: FontWeight.bold
                        )
@@ -41,8 +41,8 @@ class TasksList extends StatelessWidget{
                    TextSpan(text: task.description)
                  ])),
                )
-           );
-          }
+             );
+            }
           ).toList(),
         ),
       ),

@@ -4,11 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ui/view/todo_v2/blocs/tasks_bloc.dart';
 import 'package:flutter_ui/view/todo_v2/blocs/tasks_event.dart';
 import 'package:flutter_ui/models/task.dart';
-import 'package:flutter_ui/services/guid_gen.dart';
 
 class EditTaskScreen extends StatelessWidget{
   final Task oldTask;
-  EditTaskScreen({Key? key,required this.oldTask}):super(key: key);
+  const EditTaskScreen({Key? key,required this.oldTask}):super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +53,9 @@ class EditTaskScreen extends StatelessWidget{
                     description: descriptionController.text,
                     id: oldTask.id,
                     date: DateTime.now().toString(),
-                    isFavorite: oldTask.isFavorite
+                    isFavorite: oldTask.isFavorite,
+                    isDeleted: oldTask.isDeleted,
+                    isDone: oldTask.isDone
                   );
                   context.read<TasksBloc>().add(EditTask(task: editedTask));
                   Navigator.pop(context);

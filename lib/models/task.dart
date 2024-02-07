@@ -71,8 +71,8 @@ class Task extends Equatable{
     );
   }
 
-  // @override
-  // String toString() {
-  //   return 'Task{title: $title description: $description isDone: $isDone isDeleted: $isDeleted id: $id}';
-  // }
+  @override
+  String toString() {
+    return 'Task{title: $title description: $description isDone: $isDone isDeleted: $isDeleted id: $id} date: $date isFavorite: $isFavorite';
+  }
 }

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ui/view/todo_v2/blocs/tasks_bloc.dart';
 import 'package:flutter_ui/view/todo_v2/blocs/tasks_event.dart';
 import 'package:flutter_ui/models/task.dart';
+import 'package:flutter_ui/view/todo_v2/edit_task_screen.dart';
 import 'package:flutter_ui/view/todo_v2/widgets/popup_menu.dart';
 import 'package:intl/intl.dart';
 
@@ -23,6 +24,19 @@ class TaskTile extends StatelessWidget {
 
   void _likeOrDislikeTask(BuildContext context, Task task){
     context.read<TasksBloc>().add(MarkFavoriteOrUnfavoriteTask(task: task));
+  }
+  
+  void _editTask(BuildContext context, Task task){
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (context) => SingleChildScrollView(
+        child: Container(
+        padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+        child: EditTaskScreen(oldTask: task,),
+      ),
+      ),
+    );
   }
 
   @override
@@ -68,6 +82,7 @@ class TaskTile extends StatelessWidget {
                 _removeOrDeleteTask(context, task),
                 task: task,
                 likeOrDislike: () => _likeOrDislikeTask(context, task),
+                editTask: () => _editTask(context, task)
               )
             ]
           ),
