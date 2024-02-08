@@ -16,7 +16,8 @@ class AddTask extends TasksEvent{
 
 class UpdateTask extends TasksEvent{
   final Task task;
-  const UpdateTask({required this.task});
+  final String idScreen;
+  const UpdateTask({required this.task, required this.idScreen});
   @override
   List<Object?> get props => [task];
 }
@@ -48,4 +49,17 @@ class EditTask extends TasksEvent{
   const EditTask({required this.task});
   @override
   List<Object?> get props => [task];
+}
+
+class RestoreTask extends TasksEvent{
+  final Task task;
+  const RestoreTask({required this.task});
+  @override
+  List<Object?> get props => [task];
+}
+
+class DeleteAllTask extends TasksEvent{
+  const DeleteAllTask();
+  @override
+  List<Object?> get props => [];
 }

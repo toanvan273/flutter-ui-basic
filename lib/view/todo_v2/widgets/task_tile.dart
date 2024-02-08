@@ -17,6 +17,7 @@ class TaskTile extends StatelessWidget {
   final Task task;
   final String idScreen;
   void _removeOrDeleteTask(BuildContext context, Task task){
+    // context.read<TasksBloc>().add(RemoveTask(task: task, idScreen: idScreen));
     task.isDeleted!
         ? context.read<TasksBloc>().add(DeleteTask(task: task))
         : context.read<TasksBloc>().add(RemoveTask(task: task, idScreen: idScreen));
@@ -39,6 +40,7 @@ class TaskTile extends StatelessWidget {
     );
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -49,7 +51,7 @@ class TaskTile extends StatelessWidget {
           Expanded(
             child: Row(
               children: [
-                task.isFavorite! ? Icon(Icons.star_outlined) : Icon(Icons.star_outline),
+                task.isFavorite! ? const Icon(Icons.star_outlined) : const Icon(Icons.star_outline),
                 const SizedBox(width: 10,),
                 Expanded(child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -74,7 +76,7 @@ class TaskTile extends StatelessWidget {
               Checkbox(
                 value: task.isDone,
                 onChanged: task.isDeleted == false ? (value){
-                  context.read<TasksBloc>().add(UpdateTask(task: task));
+                  context.read<TasksBloc>().add(UpdateTask(task: task, idScreen: idScreen));
                 }: null,
               ),
               PopupMenu(
@@ -82,7 +84,8 @@ class TaskTile extends StatelessWidget {
                 _removeOrDeleteTask(context, task),
                 task: task,
                 likeOrDislike: () => _likeOrDislikeTask(context, task),
-                editTask: () => _editTask(context, task)
+                editTask: () => _editTask(context, task),
+                restoreTask: () => context.read<TasksBloc>().add(RestoreTask(task: task))
               )
             ]
           ),

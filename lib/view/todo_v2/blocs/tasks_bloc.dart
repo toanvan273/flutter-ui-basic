@@ -1,6 +1,3 @@
-
-import 'dart:ui';
-
 import 'package:flutter_ui/view/todo_v2/blocs/tasks_event.dart';
 import 'package:flutter_ui/view/todo_v2/blocs/tasks_state.dart';
 import 'package:flutter_ui/view/todo_v2/completed_screen.dart';
@@ -17,6 +14,43 @@ class TasksBloc extends HydratedBloc<TasksEvent, TasksState>{
     on<RemoveTask>(_onRemoveTask);
     on<MarkFavoriteOrUnfavoriteTask>(_onMarkFavoriteOrUnfavoriteTask);
     on<EditTask>(_onEditTask);
+    on<RestoreTask>(_onRestoreTask);
+    on<DeleteAllTask>(_onDeleteAllTask);
+  }
+
+  void _onDeleteAllTask(DeleteAllTask event, Emitter<TasksState> emit){
+    emit(TasksState(
+      pendingTasks: state.pendingTasks,
+      completedTasks: state.completedTasks,
+      favoriteTasks: state.favoriteTasks,
+      removedTasks: const [],
+    ));
+  }
+
+  void _onRestoreTask(RestoreTask event, Emitter<TasksState> emit){
+    List<Task> pendingTasks = state.pendingTasks;
+    List<Task> completedTasks = state.completedTasks;
+    List<Task> favoriteTasks = state.favoriteTasks;
+    List<Task> removedTasks = state.removedTasks;
+    if(event.task.isDone == false){
+      pendingTasks.insert(0, event.task.copyWith(isDeleted: false));
+      if(event.task.isFavorite == true){
+        favoriteTasks.insert(0, event.task.copyWith(isDeleted: false));
+      }
+    }else{
+      completedTasks.insert(0, event.task.copyWith(isDeleted: false));
+      if(event.task.isFavorite == true){
+        favoriteTasks.insert(0, event.task.copyWith(isDeleted: false));
+      }
+    }
+    final int index = removedTasks.indexWhere((e) => e.id == event.task.id);
+    removedTasks = List.from(removedTasks)..removeAt(index);
+    emit(TasksState(
+      pendingTasks: pendingTasks,
+      completedTasks: completedTasks,
+      favoriteTasks: favoriteTasks,
+      removedTasks: removedTasks
+    ));
   }
 
   void _onEditTask(EditTask event, Emitter<TasksState> emit){
@@ -92,20 +126,32 @@ class TasksBloc extends HydratedBloc<TasksEvent, TasksState>{
       final task = event.task;
       List<Task> pendingTasks = List.from(state.pendingTasks);
       List<Task> completedTasks = List.from(state.completedTasks);
-      if(task.isDone == false){
-        final int index = state.pendingTasks.indexWhere((e) => e.id == task.id);
-        completedTasks.add(task.copyWith(isDone: true));
-        pendingTasks.removeAt(index);
-      }else{
-        final int index = state.completedTasks.indexWhere((e) => e.id == task.id);
-        completedTasks.removeAt(index);
-        pendingTasks.add(task.copyWith(isDone: false));
+      List<Task> favoriteTasks = List.from(state.favoriteTasks);
+      switch (event.idScreen){
+        case PendingTasksScreen.id:
+          final int index = state.pendingTasks.indexWhere((e) => e.id == task.id);
+          pendingTasks.removeAt(index);
+          completedTasks.add(task.copyWith(isDone: true));
+          break;
+        case CompletedTasksScreen.id:
+          final int index = state.completedTasks.indexWhere((e) => e.id == task.id);
+          completedTasks.removeAt(index);
+          pendingTasks.add(task.copyWith(isDone: false));
+          break;
+        case FavoriteTasksScreen.id:
+          final int indexFavorite = state.favoriteTasks.indexWhere((e) => e.id == task.id);
+          favoriteTasks = List.from(favoriteTasks)
+            ..removeAt(indexFavorite)
+            ..insert(indexFavorite, task.copyWith(isDone: event.task.isDone == false ? true : false));
+          break;
+        default:
+          break;
       }
       emit(TasksState(
           pendingTasks: pendingTasks,
           completedTasks: completedTasks,
           removedTasks: state.removedTasks,
-          favoriteTasks: state.favoriteTasks
+          favoriteTasks: favoriteTasks
       ));
   }
 
