@@ -1,4 +1,4 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_ui/models/task_todo.dart';
 import 'package:flutter_ui/view/todo/bloc/todo_event.dart';
 import 'package:flutter_ui/view/todo/bloc/todo_state.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
@@ -7,7 +7,25 @@ class TodoBloc extends HydratedBloc<TodoEvent, TodoState>{
   TodoBloc():super(TodoState(allTask: const [])){
     on<TodoAddEvent>(_addTaskTodo);
     on<TodoFilterEvent>(_filterTaskTodo);
-    on<TodoMarkCompleteEvent>((event,emit){});
+    on<TodoUpdateEvent>(_updateTaskTodo);
+    on<TodoMarkCompleteEvent>(_markCompleteTask);
+  }
+
+  void _markCompleteTask(TodoMarkCompleteEvent event, Emitter<TodoState> emit){
+
+  }
+
+  void _updateTaskTodo(TodoUpdateEvent event,Emitter<TodoState> emit){
+    final int index = state.allTask.indexWhere((e) => e.id == event.taskTodo.id);
+    List<TaskTodo> allTasks = state.allTask;
+    if(index>=0){
+      allTasks = List.from(allTasks)..removeAt(index)
+        ..insert(index, event.taskTodo.copyWith(completed: !event.taskTodo.completed));
+    }
+    emit(TodoState(
+      allTask: allTasks,
+      filter: state.filter
+    ));
   }
 
   void _filterTaskTodo(TodoFilterEvent event, Emitter<TodoState> emit){

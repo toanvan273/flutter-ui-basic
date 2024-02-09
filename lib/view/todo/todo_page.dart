@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_ui/constant/todo.dart';
 import 'package:flutter_ui/view/todo/bloc/todo_event.dart';
 import 'package:flutter_ui/models/task_todo.dart';
 import 'package:flutter_ui/view/todo/filter_menu.dart';
@@ -30,24 +31,35 @@ class TodoPage extends StatelessWidget{
 
 
 class TodoList extends StatelessWidget{
+
+  List<TaskTodo> filterTask(List<TaskTodo> allTask, FilterItem? filter){
+    if(filter == null) {
+      return allTask;
+    }else{
+      switch(filter){
+        case FilterItem.all:
+          return allTask;
+        case FilterItem.completed:
+          return allTask.where((e) => e.completed == true).toList();
+        case FilterItem.active:
+          return allTask.where((e) => e.completed == false).toList();
+        default:
+          return allTask;
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TodoBloc, TodoState>(
       builder: (context,state){
-        print(state.allTask);
-        print(state.filter);
+        var listTask = filterTask(state.allTask, state.filter);
         return Column(
           children: [
-            Container(child: TextButton(
-              child: Text('ADD Task'),
-              onPressed: (){
-                var task = TaskTodo(id: 'A1', title: 'Test title', content: 'content test');
-                context.read<TodoBloc>().add(TodoAddEvent(task));
-              },
-            ),),
             Expanded(child: ListView.builder(
-              itemCount: state.allTask.length,
+              itemCount: listTask.length,
               itemBuilder: (BuildContext context, int index){
+                var task = listTask[index];
                 return InkWell(
                   onTap: (){
                     Navigator.push(context, MaterialPageRoute(
@@ -56,10 +68,15 @@ class TodoList extends StatelessWidget{
                   },
                   child: Container(
                     child: ListTile(
-                      leading: Checkbox(value: false, onChanged: (bool? value){}),
-                      title: Text('[${state.allTask[index].id}] ${state.allTask[index].title}'),
+                      leading: Checkbox(
+                          value: task.completed,
+                          onChanged: (bool? value){
+                            context.read<TodoBloc>().add(TodoUpdateEvent(task));
+                          }
+                      ),
+                      title: Text('[${task.id}]'),
                       isThreeLine: true,
-                      subtitle: Text('${state.allTask[index].content}'),
+                      subtitle: Text('${task.title}: ${task.content}'),
                       dense: true,
                     ),
                   ),

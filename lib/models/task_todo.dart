@@ -12,6 +12,22 @@ class TaskTodo {
     required this.content,
     this.completed = false
 });
+
+  TaskTodo copyWith({
+    String? id,
+    String? title,
+    String? content,
+    bool? completed
+  }){
+    return TaskTodo(
+        title: title ?? this.title,
+        id: id ?? this.id,
+        content: content ?? this.content,
+        completed: completed ?? this.completed
+    );
+  }
+
+
   @override
   String toString() {
     return 'Task{ id: $id title: $title content: $content}';
