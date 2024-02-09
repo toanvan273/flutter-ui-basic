@@ -5,6 +5,8 @@ import 'package:flutter_ui/view/todo/todo_page.dart';
 
 class MainTodoScreen extends StatefulWidget{
   static const id = 'main_todo_v1_screen';
+
+  const MainTodoScreen({super.key});
   @override
   State<StatefulWidget> createState() {
     return _MainTodoState();
@@ -64,7 +66,6 @@ class _MainTodoState extends State<MainTodoScreen>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       backgroundColor: Theme.of(context).canvasColor,
       extendBody: true,
       bottomNavigationBar: _createBottomNavigatioBar(),
@@ -78,10 +79,10 @@ class _MainTodoState extends State<MainTodoScreen>{
             );
           },
           tooltip: 'Create',
-          child: const Icon(Icons.add),
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(100)
           ),
+          child: const Icon(Icons.add),
         );
       }
       ),

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_ui/events/todo_event.dart';
+import 'package:flutter_ui/view/todo/bloc/todo_event.dart';
 import 'package:flutter_ui/models/task_todo.dart';
 import 'package:flutter_ui/view/todo/filter_menu.dart';
-import 'package:flutter_ui/blocs/todo_bloc.dart';
-import 'package:flutter_ui/states/todo_state.dart';
+import 'package:flutter_ui/view/todo/bloc/todo_bloc.dart';
+import 'package:flutter_ui/view/todo/bloc/todo_state.dart';
 import 'package:flutter_ui/view/todo/todo_detail.dart';
 import 'package:flutter_ui/view/todo_v2/my_drawer.dart';
 
@@ -13,7 +13,7 @@ class TodoPage extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: MyDrawer(),
+      drawer: const MyDrawer(),
       appBar: AppBar(
         title: const Text('Flutter Todos'),
         actions: [
@@ -35,7 +35,7 @@ class TodoList extends StatelessWidget{
     return BlocBuilder<TodoBloc, TodoState>(
       builder: (context,state){
         print(state.allTask);
-        print(state.allTask.length);
+        print(state.filter);
         return Column(
           children: [
             Container(child: TextButton(

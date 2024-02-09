@@ -12,13 +12,13 @@ class AppRouter{
       case RecycleBin.id:
         return MaterialPageRoute(builder: (_) => RecycleBin());
       case TabsScreen.id:
-        return MaterialPageRoute(builder: (_)=> TabsScreen());
+        return MaterialPageRoute(builder: (_)=> const TabsScreen());
       case PostsScreen.id:
         return MaterialPageRoute(builder: (_) => PostsScreen());
       case CommentScreen.id:
         return MaterialPageRoute(builder: (_) => CommentScreen());
       case MainTodoScreen.id:
-        return MaterialPageRoute(builder: (_) => MainTodoScreen());
+        return MaterialPageRoute(builder: (_) => const MainTodoScreen());
       case MyCatalog.id:
         return MaterialPageRoute(builder: (_) => MyCatalog());
       default:

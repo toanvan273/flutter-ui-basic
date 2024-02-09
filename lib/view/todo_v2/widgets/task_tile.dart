@@ -17,7 +17,6 @@ class TaskTile extends StatelessWidget {
   final Task task;
   final String idScreen;
   void _removeOrDeleteTask(BuildContext context, Task task){
-    // context.read<TasksBloc>().add(RemoveTask(task: task, idScreen: idScreen));
     task.isDeleted!
         ? context.read<TasksBloc>().add(DeleteTask(task: task))
         : context.read<TasksBloc>().add(RemoveTask(task: task, idScreen: idScreen));

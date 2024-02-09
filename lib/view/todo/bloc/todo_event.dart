@@ -8,9 +8,13 @@ final class TodoAddEvent extends TodoEvent{
   TodoAddEvent(this.taskTodo);
 }
 
+final class TodoUpdateEvent extends TodoEvent{
+
+}
+
 final class TodoFilterEvent extends TodoEvent{
   FilterItem filterItem;
-  TodoFilterEvent(this.filterItem);
+  TodoFilterEvent({required this.filterItem});
 }
 
 final class TodoMarkCompleteEvent extends TodoEvent{

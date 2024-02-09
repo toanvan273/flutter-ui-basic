@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_ui/view/todo_v2/add_tasks_screen.dart';
 import 'package:flutter_ui/view/todo_v2/completed_screen.dart';
@@ -9,6 +7,8 @@ import 'package:flutter_ui/view/todo_v2/pending_screen.dart';
 
 class TabsScreen extends StatefulWidget{
   static const id = 'tabs_screen';
+
+  const TabsScreen({super.key});
 
   @override
   State<TabsScreen> createState() => _TabsScreenState();
