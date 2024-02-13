@@ -28,46 +28,7 @@ class FilterMenu extends StatelessWidget{
       ]),
       icon: Icon(Icons.filter_list_rounded),
     );
-    // return MenuAnchor(
-    //   builder: (BuildContext context, MenuController controller, Widget? child){
-    //     return IconButton(
-    //         onPressed: (){
-    //           if(controller.isOpen){
-    //             controller.close();
-    //           }else{
-    //             controller.open();
-    //           }
-    //         },
-    //         icon: Icon(Icons.filter_list_rounded)
-    //     );
-    //   },
-    //   menuChildren: [
-    //     InkWell(
-    //       child: Text('Show all'),
-    //       onTap: (){
-    //         setState(() {
-    //           filterItem = FilterItem.all;
-    //         });
-    //       },
-    //     ),
-    //     InkWell(
-    //       child: Text('Show active'),
-    //       onTap: (){
-    //         setState(() {
-    //           filterItem = FilterItem.active;
-    //         });
-    //       },
-    //     ),
-    //     InkWell(
-    //       child: Text('Show completed'),
-    //       onTap: (){
-    //         setState(() {
-    //           filterItem = FilterItem.completed;
-    //         });
-    //       },
-    //     )
-    //   ],
-    // );
+
   }
 }
 
@@ -75,61 +36,21 @@ class FilterMenu extends StatelessWidget{
 
 
 
-class MarkCompleteMenu extends StatefulWidget{
-  @override
-  State<StatefulWidget> createState() {
-    return _MarkCompleteMenu();
-  }
-}
-
-class _MarkCompleteMenu extends State<MarkCompleteMenu>{
-  MarkComplete? markComplete;
+class MarkCompleteMenu extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton(
       itemBuilder: ((context)=> [
         PopupMenuItem(
-          onTap: (){},
+          onTap: () => context.read<TodoBloc>().add(TodoMarkCompleteEvent(MarkComplete.markAll)),
           child: Text('Mark all complete'),
         ),
         PopupMenuItem(
-          onTap: (){},
+          onTap: () => context.read<TodoBloc>().add(TodoMarkCompleteEvent(MarkComplete.clearAll)),
           child: Text('Clear all completed'),
         )
       ]),
         icon: Icon(Icons.more_horiz)
     );
-    // return MenuAnchor(
-    //   builder: (BuildContext context, MenuController controller, Widget? child){
-    //     return IconButton(
-    //         onPressed: (){
-    //           if(controller.isOpen){
-    //             controller.close();
-    //           }else{
-    //             controller.open();
-    //           }
-    //         },
-    //         icon: Icon(Icons.more_horiz)
-    //     );
-    //   },
-    //   menuChildren: [
-    //     InkWell(
-    //       child: Text('Mark all complete'),
-    //       onTap: (){
-    //         setState(() {
-    //           markComplete = MarkComplete.markAll;
-    //         });
-    //       },
-    //     ),
-    //     InkWell(
-    //       child: Text('Clear all completed'),
-    //       onTap: (){
-    //         setState(() {
-    //           markComplete = MarkComplete.clearAll;
-    //         });
-    //       },
-    //     ),
-    //   ],
-    // );
   }
 }

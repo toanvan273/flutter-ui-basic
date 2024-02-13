@@ -31,7 +31,6 @@ class TodoPage extends StatelessWidget{
 
 
 class TodoList extends StatelessWidget{
-
   List<TaskTodo> filterTask(List<TaskTodo> allTask, FilterItem? filter){
     if(filter == null) {
       return allTask;

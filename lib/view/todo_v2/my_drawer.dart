@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ui/blocs/switch_bloc.dart';
+import 'package:flutter_ui/view/movie/menu_screen.dart';
 import 'package:flutter_ui/view/todo_v2/blocs/tasks_bloc.dart';
 import 'package:flutter_ui/events/switch_event.dart';
 import 'package:flutter_ui/states/switch_state.dart';
@@ -82,6 +83,14 @@ class MyDrawer extends StatelessWidget{
             child: const ListTile(
               leading: Icon(Icons.shopping_cart),
               title: Text('My Catalog'),
+            ),
+          ),
+          const Divider(),
+          GestureDetector(
+            onTap: () => Navigator.of(context).pushReplacementNamed(MenuMovie.id),
+            child: const ListTile(
+              leading: Icon(Icons.movie_creation_outlined),
+              title: Text('My Movie'),
             ),
           ),
           const Divider(),

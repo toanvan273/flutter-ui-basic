@@ -1,3 +1,4 @@
+import 'package:flutter_ui/constant/todo.dart';
 import 'package:flutter_ui/models/task_todo.dart';
 import 'package:flutter_ui/view/todo/bloc/todo_event.dart';
 import 'package:flutter_ui/view/todo/bloc/todo_state.dart';
@@ -12,7 +13,22 @@ class TodoBloc extends HydratedBloc<TodoEvent, TodoState>{
   }
 
   void _markCompleteTask(TodoMarkCompleteEvent event, Emitter<TodoState> emit){
+    List<TaskTodo> allTask = state.allTask;
+    switch(event.markComplete){
+      case MarkComplete.markAll:
+        allTask = allTask.map((e) => e.copyWith(completed: true)).toList();
+        break;
+      case MarkComplete.clearAll:
+        allTask = allTask.map((e) => e.copyWith(completed: false)).toList();
+        break;
+      default:
+        break;
+    }
 
+    emit(TodoState(
+      allTask: allTask,
+      filter: null
+    ));
   }
 
   void _updateTaskTodo(TodoUpdateEvent event,Emitter<TodoState> emit){

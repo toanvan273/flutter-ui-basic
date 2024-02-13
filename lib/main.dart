@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ui/blocs/comment_bloc.dart';
 import 'package:flutter_ui/blocs/post_bloc.dart';
 import 'package:flutter_ui/blocs/switch_bloc.dart';
-import 'package:flutter_ui/view/todo/todo_main.dart';
+import 'package:flutter_ui/view/movie/menu_screen.dart';
 import 'package:flutter_ui/view/todo_v2/blocs/tasks_bloc.dart';
 import 'package:flutter_ui/view/todo/bloc/todo_bloc.dart';
 import 'package:flutter_ui/events/comment_event.dart';
@@ -13,7 +13,6 @@ import 'package:flutter_ui/services/app_router.dart';
 import 'package:flutter_ui/services/app_theme.dart';
 import 'package:flutter_ui/states/switch_state.dart';
 import 'package:flutter_ui/ui_catalog/blocs/drink_bloc.dart';
-// import 'package:flutter_ui/view/todo_v2/tabs_screen.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:http/http.dart' as http;
@@ -61,7 +60,7 @@ class MyApp extends StatelessWidget{
               theme: state.switchValue! ?
               AppThemes.appThemeData[AppTheme.darkTheme]:
               AppThemes.appThemeData[AppTheme.lightTheme],
-              home: MainTodoScreen(),
+              home: MenuMovie(),
               onGenerateRoute: appRouter.onGenerateRoute,
             );
           },
