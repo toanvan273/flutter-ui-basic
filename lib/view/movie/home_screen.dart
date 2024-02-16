@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ui/view/movie/widget/chip_recomment.dart';
 import 'package:flutter_ui/view/movie/widget/movie_item.dart';
 import 'package:flutter_ui/view/movie/widget/show_item.dart';
 
@@ -8,7 +9,6 @@ class HomeMovie extends StatelessWidget{
     return Scaffold(
       body: Container(
         width: MediaQuery.of(context).size.width,
-        // width: double.infinity,
         decoration: const BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topCenter,
@@ -51,25 +51,32 @@ class HomeMovie extends StatelessWidget{
                 ),
               ),
               Container(
-                height: 50,  ///assumed
+                height: 50,
                 width: MediaQuery.of(context).size.width,
                 padding: EdgeInsets.only(left: 10),
                 child: ListView(
                   scrollDirection: Axis.horizontal,
-                  children: const [
-                    Chip(label: Text('For you')),
-                    Chip(label: Text('Top Charts')),
-                    Chip(label: Text('CATEGORY')),
-                    Chip(label: Text('For you')),
-                    Chip(label: Text('Top Charts')),
-                    Chip(label: Text('CATEGORY')),
-                    Chip(label: Text('For you')),
-                    Chip(label: Text('Top Charts')),
-                    Chip(label: Text('CATEGORY')),
+                  children: [
+                    ChipRecomment(recomment: 'For you',),
+                    ChipRecomment(recomment: 'Top chart',),
+                    ChipRecomment(recomment: 'CATEGORY',),
+                    ChipRecomment(recomment: 'For you',),
+                    ChipRecomment(recomment: 'For you',),
+                    ChipRecomment(recomment: 'For you',),
+                    ChipRecomment(recomment: 'For you',),
                   ],
                 )
               ),
-              Text('Recommeneded For You'),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: EdgeInsets.only(left: 10, top: 10, bottom: 10),
+                  child: Text(
+                    'Recommeneded For You',
+                    style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w700),
+                  ),
+                ),
+              ),
               Container(
                 height: 160,
                 padding: EdgeInsets.only(left: 10),
@@ -89,10 +96,17 @@ class HomeMovie extends StatelessWidget{
                   ],
                 )
               ),
-              Text('TV Show'),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: EdgeInsets.only(left: 10, top: 10, bottom: 10),
+                  child: Text('TV Show', style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w700),),
+                ),
+              ),
               Expanded(
                 child: ListView(
-                  children: const [
+                  padding: EdgeInsets.all(10),
+                  children: [
                     ShowItem(),
                     ShowItem(),
                     ShowItem(),
@@ -112,3 +126,4 @@ class HomeMovie extends StatelessWidget{
     );
   }
 }
+

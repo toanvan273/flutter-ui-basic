@@ -10,6 +10,7 @@ class ShowItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: EdgeInsets.only(bottom: 10),
       child: Row(
         children: [
           InkWell(
@@ -28,18 +29,51 @@ class ShowItem extends StatelessWidget {
               ),
             ),
           ),
-          Container(
-            child: Column(
-              children: const [
-                Text("TITLE NHA"),
-                Text('Geners: ....'),
-                Text('Cast: ....')
-              ],
+          Expanded(
+            child: Container(
+              margin: EdgeInsets.only(left: 10),
+              child: Flexible(
+                child: Wrap(
+                  direction: Axis.vertical,
+                  textDirection: TextDirection.ltr,
+                  children:  [
+                    Row(children: [
+                      Text("TITLE NHA", style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20, color: Colors.white),),
+                      SizedBox(width: 10,),
+                      Row(children: [
+                        Icon(Icons.star_outlined, color: Colors.yellow, size: 16,),
+                        Icon(Icons.star_outlined, color: Colors.yellow, size: 16,),
+                        Icon(Icons.star_outlined, color: Colors.yellow, size: 16,),
+                        Icon(Icons.star_outlined, color: Colors.yellow, size: 16,),
+                        Icon(Icons.star_outlined, color: Colors.yellow, size: 16,)
+                      ],)
+                    ],),
+                    RichText(
+                        overflow: TextOverflow.ellipsis,
+                        text: TextSpan(
+                        text: 'Geners: ',
+                        style: TextStyle(color: Colors.grey),
+                        children: [
+                          TextSpan(text: 'Sci-Fi Tv, Tv Action, & Adventure.', style: TextStyle(color: Colors.white))
+                        ]
+                    )),
+                    SizedBox(height: 5,),
+                    RichText(
+                      overflow: TextOverflow.visible,
+                        text: TextSpan(
+                        text: 'Cast: ',
+                        style: TextStyle(color: Colors.grey),
+                        children: [
+                          TextSpan(text: 'Grant Gustin, Candice Patton, Danielle Panabaker.', style: TextStyle(color: Colors.white))
+                        ]
+                    )),
+                  ],
+                ),
+              )
             ),
           )
         ],
       ),
-      padding: EdgeInsets.only(bottom: 10),
     );
   }
 }
